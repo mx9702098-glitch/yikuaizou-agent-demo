@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一块走 · 还没走够</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+  background: #e2e8e2;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  -webkit-font-smoothing: antialiased;
+}
+
+.phone-area { flex: 1; display: flex; align-items: center; justify-content: center; }
+.phone {
+  width: 375px; height: 812px; background: #ededed; border-radius: 46px; overflow: hidden;
+  position: relative; border: 10px solid #111; box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+.statusbar {
+  height: 44px; background: #ededed; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 22px; font-size: 13px; font-weight: 600;
+  z-index: 20; position: relative;
+}
+.statusbar-r { display: flex; gap: 5px; align-items: center; font-size: 11px; }
+.navbar {
+  height: 44px; background: #ededed; border-bottom: 0.5px solid #d0d0d0;
+  display: flex; align-items: center; justify-content: center; position: relative; z-index: 20;
+}
+.nav-back { position: absolute; left: 12px; font-size: 24px; color: #000; }
+.nav-center { display: flex; align-items: center; gap: 7px; }
+.nav-av {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: linear-gradient(135deg, #3d9e4a, #5dc46a);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: #fff; font-weight: 700;
+}
+.nav-name { font-size: 17px; font-weight: 500; color: #111; }
+.nav-dot { width: 6px; height: 6px; border-radius: 50%; background: #3d9e4a; margin-left: 2px; }
+.nav-more { position: absolute; right: 14px; font-size: 20px; color: #333; }
+
+.chat {
+  position: absolute; top: 88px; bottom: 52px; left: 0; right: 0;
+  overflow-y: auto; padding: 14px 10px 6px; -webkit-overflow-scrolling: touch;
+}
+.chat::-webkit-scrollbar { display: none; }
+.ts { text-align: center; font-size: 11px; color: #888; margin: 2px 0 14px; }
+.ts span { background: rgba(160,160,160,0.32); color: #fff; padding: 2px 10px; border-radius: 3px; }
+
+.msg { display: flex; align-items: flex-start; margin-bottom: 3px; opacity: 0; animation: fadeUp 0.32s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.msg.user { justify-content: flex-end; }
+.av { width: 36px; height: 36px; border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.msg.agent .av { background: linear-gradient(135deg, #3d9e4a, #5dc46a); color: #fff; font-size: 12px; font-weight: 700; margin-right: 8px; }
+.msg.user .av { background: #c9c9c9; font-size: 18px; margin-left: 8px; }
+.bubble { max-width: 220px; padding: 9px 13px; font-size: 15px; line-height: 1.48; border-radius: 6px; word-break: break-word; position: relative; }
+.msg.user .bubble { background: #95ec69; color: #111; }
+.msg.agent .bubble { background: #fff; color: #111; }
+.msg.user .bubble::after { content:''; position:absolute; top:10px; right:-5px; border:6px solid transparent; border-left-color:#95ec69; border-right:none; }
+.msg.agent .bubble::after { content:''; position:absolute; top:10px; left:-5px; border:6px solid transparent; border-right-color:#fff; border-left:none; }
+
+.typing-wrap { display: flex; align-items: flex-start; margin-bottom: 3px; }
+.typing-wrap .av { background: linear-gradient(135deg, #3d9e4a, #5dc46a); color: #fff; font-size: 12px; font-weight: 700; margin-right: 8px; width: 36px; height: 36px; border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.typing-dots { display: flex; gap: 4px; padding: 11px 14px; background: #fff; border-radius: 6px; width: fit-content; position: relative; }
+.typing-dots::after { content:''; position:absolute; top:10px; left:-5px; border:6px solid transparent; border-right-color:#fff; border-left:none; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: #c0c0c0; animation: pulse 1.5s infinite ease-in-out; }
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse { 0%,80% { opacity:.3; transform:scale(.85); } 40% { opacity:1; transform:scale(1.1); } }
+
+.card-wrap { margin-left: 44px; margin-top: 6px; margin-bottom: 12px; max-width: 258px; opacity: 0; animation: cardIn 0.38s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+@keyframes cardIn { from { opacity:0; transform:translateY(12px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+.inputbar { position: absolute; bottom: 0; left: 0; right: 0; height: 52px; background: #f7f7f7; border-top: 0.5px solid #d9d9d9; display: flex; align-items: center; padding: 0 10px; gap: 9px; }
+.inputbar-icon { font-size: 22px; color: #888; }
+.inputbar-fake { flex: 1; height: 34px; background: #fff; border-radius: 17px; border: 0.5px solid #ddd; display: flex; align-items: center; padding: 0 14px; font-size: 14px; color: #c0c0c0; }
+
+/* LOW STEPS CARD */
+.low-card {
+  background: #fff; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06); border: 0.5px solid rgba(0,0,0,0.05);
+}
+.low-top { padding: 22px 18px 16px; background: linear-gradient(180deg, #f6fbf7 0%, #fff 100%); }
+.low-label { font-size: 11px; color: #999; margin-bottom: 3px; }
+.low-num { font-size: 36px; font-weight: 800; color: #222; letter-spacing: -0.03em; margin-bottom: 10px; }
+.low-num span { font-size: 14px; color: #bbb; font-weight: 400; }
+.low-bar { height: 6px; background: #ececec; border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+.low-fill { height: 100%; background: linear-gradient(90deg, #5dc46a, #3d9e4a); border-radius: 3px; }
+.low-sub { font-size: 11px; color: #aaa; }
+.low-body { padding: 14px 18px 18px; }
+.low-main-hint {
+  text-align: center; padding: 14px 0 12px;
+  font-size: 14px; color: #333; font-weight: 500; line-height: 1.5;
+}
+.low-main-hint b { color: #3d9e4a; font-weight: 700; font-size: 15px; }
+.low-alt { border-top: 0.5px solid #f0f0f0; padding-top: 16px; margin-top: 0; }
+
+.proj-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 12px 16px 0; padding: 0; background: none; border-radius: 0;
+  cursor: pointer; transition: opacity 0.12s;
+}
+.proj-row:active { opacity: 0.6; }
+.proj-row-left { display: flex; align-items: center; gap: 5px; }
+.proj-row-icon { font-size: 14px; }
+.proj-row-name { font-size: 12px; color: #3d9e4a; font-weight: 500; }
+.proj-row-arrow { font-size: 11px; color: #c0c0c0; }
+.low-body .proj-row { margin: 0 0 0; }
+
+.soft-btn {
+  width: 100%; height: 40px; border: 1px solid #e8e8e8; border-radius: 20px;
+  background: #fff; color: #888; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.12s; margin-bottom: 8px;
+}
+.soft-btn:active { background: #f8f8f8; }
+.low-ghost {
+  width: 100%; height: 30px; border: none; background: transparent;
+  color: #c0c0c0; font-size: 11px; cursor: pointer;
+}
+.low-ghost:active { color: #888; }
+
+/* 微信原生付款面板 */
+.pay-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.35);
+  z-index: 60; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.pay-overlay.show { opacity: 1; pointer-events: all; }
+.pay-sheet {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: #f5f5f5; border-radius: 12px 12px 0 0;
+  transform: translateY(100%); transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+  padding-bottom: 20px;
+}
+.pay-overlay.show .pay-sheet { transform: translateY(0); }
+.pay-hd { padding: 14px 16px 10px; text-align: center; position: relative; border-bottom: 0.5px solid #e5e5e5; background: #fff; }
+.pay-close { position: absolute; left: 14px; top: 14px; font-size: 18px; color: #555; cursor: pointer; }
+.pay-title { font-size: 15px; font-weight: 600; color: #111; }
+.pay-amt { background: #fff; padding: 20px 16px; text-align: center; border-bottom: 0.5px solid #e5e5e5; }
+.pay-amt-num { font-size: 32px; font-weight: 600; color: #111; }
+.pay-amt-num small { font-size: 18px; margin-right: 2px; }
+.pay-amt-sub { font-size: 12px; color: #888; margin-top: 4px; }
+.pay-list { background: #fff; margin-top: 8px; }
+.pay-item { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #111; border-bottom: 0.5px solid #eee; }
+.pay-item:last-child { border-bottom: none; }
+.pay-item-l { color: #888; }
+.pay-item-r { color: #111; }
+.pay-confirm { margin: 16px 14px 0; height: 44px; width: calc(100% - 28px); background: #07c160; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: 500; cursor: pointer; }
+.pay-confirm:active { background: #06a552; }
+
+/* 订阅消息授权弹窗 */
+.sub-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.35);
+  z-index: 70; opacity: 0; pointer-events: none; transition: opacity 0.18s;
+  display: flex; align-items: flex-end;
+}
+.sub-overlay.show { opacity: 1; pointer-events: all; }
+.sub-sheet { width: 100%; background: #fff; border-radius: 12px 12px 0 0; padding: 16px 16px 18px; transform: translateY(100%); transition: transform 0.22s ease; }
+.sub-overlay.show .sub-sheet { transform: translateY(0); }
+.sub-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px; }
+.sub-sub { font-size: 11px; color: #999; margin-bottom: 12px; }
+.sub-app { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-top: 0.5px solid #eee; border-bottom: 0.5px solid #eee; }
+.sub-app-ic { width: 26px; height: 26px; border-radius: 6px; background: linear-gradient(135deg, #3d9e4a, #5dc46a); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; font-weight: 700; flex-shrink: 0; }
+.sub-app-txt { flex: 1; font-size: 13px; color: #111; }
+.sub-app-txt small { display: block; font-size: 11px; color: #888; margin-top: 1px; }
+.sub-msg-item { padding: 10px 0; border-bottom: 0.5px solid #eee; display: flex; align-items: flex-start; gap: 10px; }
+.sub-msg-item:last-of-type { border-bottom: none; }
+.sub-check { width: 16px; height: 16px; border-radius: 50%; background: #07c160; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.sub-msg-body { flex: 1; }
+.sub-msg-title { font-size: 13px; color: #111; font-weight: 500; margin-bottom: 2px; }
+.sub-msg-desc { font-size: 11px; color: #888; line-height: 1.5; }
+.sub-always { display: flex; align-items: center; gap: 6px; padding: 12px 0 4px; font-size: 12px; color: #555; }
+.sub-check-box { width: 15px; height: 15px; border: 1px solid #07c160; border-radius: 3px; background: #07c160; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; }
+.sub-btns { display: flex; gap: 10px; margin-top: 14px; }
+.sub-btn-cancel, .sub-btn-ok { flex: 1; height: 42px; border: none; border-radius: 6px; font-size: 15px; font-weight: 500; cursor: pointer; }
+.sub-btn-cancel { background: #f2f2f2; color: #111; }
+.sub-btn-ok { background: #07c160; color: #fff; }
+
+/* 一起捐半屏 */
+.group-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.4);
+  z-index: 55; opacity: 0; pointer-events: none; transition: opacity 0.22s;
+}
+.group-overlay.show { opacity: 1; pointer-events: all; }
+.group-sheet {
+  position: absolute; bottom: 0; left: 0; right: 0; background: #fff;
+  border-radius: 16px 16px 0 0; transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); max-height: 70%; overflow-y: auto;
+  padding: 20px 18px 28px;
+}
+.group-overlay.show .group-sheet { transform: translateY(0); }
+.group-hd { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 6px; }
+.group-sub { font-size: 13px; color: #888; margin-bottom: 18px; line-height: 1.5; }
+.group-card { background: #f8f9f8; border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+.group-card-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 8px; }
+.group-members { display: flex; align-items: center; gap: -4px; margin-bottom: 8px; }
+.group-av { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #fff; margin-left: -6px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 600; }
+.group-av:first-child { margin-left: 0; }
+.group-progress { display: flex; align-items: center; gap: 8px; }
+.group-bar { flex: 1; height: 6px; background: #e8e8e8; border-radius: 3px; overflow: hidden; }
+.group-bar-fill { height: 100%; background: linear-gradient(90deg, #5dc46a, #3d9e4a); border-radius: 3px; }
+.group-pct { font-size: 12px; color: #3d9e4a; font-weight: 600; }
+.group-desc { font-size: 11px; color: #999; margin-top: 6px; }
+.group-create-btn {
+  width: 100%; height: 46px; border: none; border-radius: 23px;
+  background: linear-gradient(135deg, #3d9e4a, #5dc46a);
+  color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(61,158,74,0.2); margin-top: 6px;
+}
+.group-create-btn:active { transform: scale(0.97); }
+
+/* Toast */
+.toast {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background: rgba(0,0,0,0.78); color: #fff;
+  padding: 14px 20px; border-radius: 8px;
+  font-size: 14px; z-index: 80;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  min-width: 140px;
+}
+.toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.toast-icon {
+  width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700;
+}
+
+/* HALF SHEET */
+.half-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.4);
+  z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.22s;
+}
+.half-overlay.show { opacity: 1; pointer-events: all; }
+.half-sheet {
+  position: absolute; bottom: 0; left: 0; right: 0; background: #fff;
+  border-radius: 16px 16px 0 0; transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.4,0,0.2,1); max-height: 82%; overflow-y: auto;
+}
+.half-overlay.show .half-sheet { transform: translateY(0); }
+.hs-handle { width: 36px; height: 4px; background: #ddd; border-radius: 2px; margin: 10px auto 0; }
+.proj-hero {
+  height: 160px; position: relative;
+  background: linear-gradient(160deg, #c5e8c9 0%, #7bc98a 60%, #4ca85a 100%);
+  display: flex; align-items: center; justify-content: center; font-size: 60px;
+}
+.proj-hero-tag { position: absolute; bottom: 12px; left: 14px; background: rgba(0,0,0,0.5); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 10px; backdrop-filter: blur(4px); }
+.hs-content { padding: 20px 18px 90px; }
+.hs-proj-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 8px; }
+.hs-trust { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.trust-badge { display: inline-flex; align-items: center; gap: 3px; background: #f0f9f1; color: #3d9e4a; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 0.5px solid #c5e8c9; }
+.org-section { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 0.5px solid #f0f0f0; }
+.org-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 0.5px solid #f5f5f5; }
+.org-row:last-child { border-bottom: none; }
+.org-label { font-size: 12px; color: #999; flex-shrink: 0; width: 72px; }
+.org-value { display: flex; align-items: center; gap: 8px; flex: 1; }
+.org-icon { width: 24px; height: 24px; border-radius: 6px; background: #f0f9f1; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.org-name { font-size: 14px; color: #111; font-weight: 500; }
+.org-arrow { font-size: 12px; color: #d0d0d0; margin-left: auto; }
+.proj-intro { font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 20px; padding: 14px 14px; background: #f9f9f9; border-radius: 10px; }
+.donate-stats { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 0.5px solid #f0f0f0; }
+.donate-stats-hd { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 14px; }
+.donate-ring-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+.ring-wrap { width: 68px; height: 68px; border-radius: 50%; flex-shrink: 0; background: conic-gradient(#e53935 0% 18.1%, #f0f0f0 18.1% 100%); display: flex; align-items: center; justify-content: center; }
+.ring-inner { width: 52px; height: 52px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: #e53935; }
+.ring-data { flex: 1; }
+.ring-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; }
+.ring-label { font-size: 12px; color: #999; }
+.ring-value { font-size: 13px; color: #111; font-weight: 600; }
+.donate-total { font-size: 12px; color: #666; margin-bottom: 10px; line-height: 1.6; }
+.donate-total b { color: #111; font-weight: 600; }
+.live-donate { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #f8f8f8; border-radius: 10px; }
+.live-av { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, #c8e6c9, #a5d6a7); display: flex; align-items: center; justify-content: center; font-size: 11px; }
+.live-txt { flex: 1; font-size: 12px; color: #555; }
+.live-time { font-size: 11px; color: #bbb; flex-shrink: 0; }
+.update-section { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 0.5px solid #f0f0f0; }
+.update-hd { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 12px; }
+.update-date { font-size: 11px; color: #bbb; margin-bottom: 6px; }
+.update-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 8px; }
+.update-body { font-size: 13px; color: #555; line-height: 1.7; }
+.update-photos { display: flex; gap: 8px; margin-top: 12px; }
+.update-photo { flex: 1; height: 72px; border-radius: 10px; background: linear-gradient(135deg, #e8f5ea, #c8e6c9); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #6a8a70; }
+.comment-section { margin-bottom: 20px; }
+.comment-hd { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 12px; }
+.comment-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 0.5px solid #f5f5f5; }
+.comment-item:last-child { border-bottom: none; }
+.comment-av { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, #f0d0b0, #e8c0a0); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; font-weight: 600; flex-shrink: 0; }
+.comment-body { flex: 1; }
+.comment-name { font-size: 13px; color: #111; font-weight: 500; }
+.comment-name span { font-size: 11px; color: #bbb; font-weight: 400; margin-left: 8px; }
+.comment-txt { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.5; }
+.hs-footer { position: sticky; bottom: 0; left: 0; right: 0; background: #fff; border-top: 0.5px solid #eee; padding: 12px 16px 18px; display: flex; align-items: center; gap: 10px; z-index: 10; box-shadow: 0 -2px 10px rgba(0,0,0,0.04); }
+.hs-footer-icon { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 9px; color: #888; cursor: pointer; flex-shrink: 0; width: 44px; }
+.hs-footer-icon .fi-ic { font-size: 20px; }
+.hs-btn-monthly { flex: 1; height: 44px; border: none; border-radius: 22px; background: #ff9500; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.12s; }
+.hs-btn-monthly:active { opacity: 0.85; transform: scale(0.97); }
+.hs-btn-donate { flex: 1; height: 44px; border: none; border-radius: 22px; background: #e53935; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.12s; }
+.hs-btn-donate:active { opacity: 0.85; transform: scale(0.97); }
+</style>
+</head>
+<body>
+
+<div class="phone-area">
+<div class="phone" id="phone">
+  <div class="statusbar"><span>9:41</span><div class="statusbar-r"><span>●●●</span><span>5G</span><span>100%</span></div></div>
+  <div class="navbar">
+    <span class="nav-back">&#8249;</span>
+    <div class="nav-center"><div class="nav-av">走</div><span class="nav-name">一块走</span><div class="nav-dot"></div></div>
+    <span class="nav-more">···</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="inputbar"><span class="inputbar-icon">😊</span><div class="inputbar-fake">发消息…</div><span class="inputbar-icon">⊕</span></div>
+
+  <!-- 半屏：项目详情 -->
+  <div class="half-overlay" id="projSheet" onclick="closeSheet()">
+    <div class="half-sheet" onclick="event.stopPropagation()">
+      <div class="hs-handle"></div>
+      <div class="proj-hero">🍳<div class="proj-hero-tag">捐一元村校厨房焕新 · 百胜中国配捐</div></div>
+      <div class="hs-content">
+        <div class="hs-proj-title">捐一元村校厨房焕新</div>
+        <div class="hs-trust"><span class="trust-badge">✓ 平台 12 年项目</span><span class="trust-badge">电子捐赠票据</span></div>
+        <div class="org-section">
+          <div class="org-row"><div class="org-label">善款接收：</div><div class="org-value"><div class="org-icon">🌱</div><span class="org-name">中国乡村发展基金会</span></div><span class="org-arrow">›</span></div>
+          <div class="org-row"><div class="org-label">执行机构：</div><div class="org-value"><div class="org-icon">🏫</div><span class="org-name">百胜中国</span></div><span class="org-arrow">›</span></div>
+        </div>
+        <div class="update-section">
+          <div class="update-hd">最新进展</div>
+          <div class="update-date">2026 / 03 / 16 · 中国乡村发展基金会</div>
+          <div class="update-title">爱心厨房设备让光盘行动更轻松</div>
+          <div class="update-body">四川仪陇县 5 所学校的新厨房设备上个月正式投入使用，孩子们第一次在宽敞明亮的地方吃上了热饭——以前只能在漏风的棚子里蹲着吃。</div>
+          <div class="update-photos"><div class="update-photo">厨房实拍</div><div class="update-photo">孩子用餐</div><div class="update-photo">设备安装</div></div>
+        </div>
+        <div class="proj-intro">人人可公益，助力欠发达地区儿童营养改善。捐一元，帮助乡村学校改善厨房设施，让每个孩子都能吃上干净卫生的热饭。项目执行地覆盖全国 14 个省份，已惠及超过 3,600 所学校。</div>
+        <div class="donate-stats">
+          <div class="donate-stats-hd">项目捐赠情况</div>
+          <div class="donate-ring-row"><div class="ring-wrap"><div class="ring-inner">18.1%</div></div><div class="ring-data"><div class="ring-row"><span class="ring-label">当期捐赠目标：</span><span class="ring-value">5,000,000 元</span></div><div class="ring-row"><span class="ring-label">当期捐赠金额：</span><span class="ring-value">902,658 元</span></div></div></div>
+          <div class="donate-total">项目累计捐赠 <b>9,362,411 元</b>，累计捐赠人次 <b>606,346 次</b>。</div>
+          <div class="live-donate"><div class="live-av">🍀</div><div class="live-txt">吉祥如意 捐出 ¥0.01</div><div class="live-time">4 秒前</div></div>
+        </div>
+        <div class="comment-section">
+          <div class="comment-hd">爱心留言</div>
+          <div class="comment-item"><div class="comment-av" style="background:linear-gradient(135deg,#a8d8ea,#86c5d8)">陈</div><div class="comment-body"><div class="comment-name">陈**<span>¥10 · 3 小时前</span></div><div class="comment-txt">希望小朋友们能吃上热饭，加油！</div></div></div>
+          <div class="comment-item"><div class="comment-av" style="background:linear-gradient(135deg,#f0b8b8,#e89898)">李</div><div class="comment-body"><div class="comment-name">李*<span>¥1 · 昨天</span></div><div class="comment-txt">每天捐步走一走，积少成多。</div></div></div>
+          <div class="comment-item"><div class="comment-av" style="background:linear-gradient(135deg,#c8b8e8,#b0a0d8)">A孙</div><div class="comment-body"><div class="comment-name">A孙**<span>开通了月捐</span></div><div class="comment-txt">坚持做一件小事。</div></div></div>
+        </div>
+      </div>
+      <div class="hs-footer">
+        <div class="hs-footer-icon" onclick="closeSheet(); setTimeout(openGroup, 350);"><span class="fi-ic">👥</span><span>一起捐</span></div>
+        <button class="hs-btn-monthly" onclick="openPay()">每月一捐</button>
+        <button class="hs-btn-donate" onclick="openPay()">捐一笔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 微信原生付款面板 -->
+  <div class="pay-overlay" id="paySheet" onclick="closePay()">
+    <div class="pay-sheet" onclick="event.stopPropagation()">
+      <div class="pay-hd"><span class="pay-close" onclick="closePay()">×</span><div class="pay-title">微信支付</div></div>
+      <div class="pay-amt"><div class="pay-amt-num"><small>¥</small>1.00</div><div class="pay-amt-sub">捐一元村校厨房焕新</div></div>
+      <div class="pay-list"><div class="pay-item"><span class="pay-item-l">支付方式</span><span class="pay-item-r">零钱 ›</span></div><div class="pay-item"><span class="pay-item-l">收款方</span><span class="pay-item-r">腾讯公益</span></div></div>
+      <button class="pay-confirm" onclick="payDone()">立即支付</button>
+    </div>
+  </div>
+
+  <!-- 订阅消息授权弹窗 -->
+  <div class="sub-overlay" id="subSheet">
+    <div class="sub-sheet">
+      <div class="sub-title">一块走申请发送以下消息</div>
+      <div class="sub-sub">用户授权后可发送本次服务消息</div>
+      <div class="sub-app"><div class="sub-app-ic">走</div><div class="sub-app-txt">一块走<small>腾讯公益</small></div></div>
+      <div class="sub-msg-item"><div class="sub-check">✓</div><div class="sub-msg-body"><div class="sub-msg-title">捐步提醒</div><div class="sub-msg-desc">每日步数达标后，提醒你来完成捐步</div></div></div>
+      <div class="sub-always"><div class="sub-check-box">✓</div><span>总是保持以上选择，不再询问</span></div>
+      <div class="sub-btns"><button class="sub-btn-cancel" onclick="closeSub()">取消</button><button class="sub-btn-ok" onclick="subDone()">允许</button></div>
+    </div>
+  </div>
+
+  <!-- 一起捐半屏 -->
+  <div class="group-overlay" id="groupSheet" onclick="closeGroup()">
+    <div class="group-sheet" onclick="event.stopPropagation()">
+      <div class="group-hd">一起捐</div>
+      <div class="group-sub">邀请好友一起为「村校厨房焕新」加油，<br>合力完成一段善举。</div>
+      <div class="group-card">
+        <div class="group-card-title">麦麦发起的一起捐</div>
+        <div class="group-members"><div class="group-av" style="background:#5dc46a">麦</div><div class="group-av" style="background:#ff9500">?</div><div class="group-av" style="background:#e0e0e0; color:#aaa">+</div></div>
+        <div class="group-progress"><div class="group-bar"><div class="group-bar-fill" style="width:12%"></div></div><span class="group-pct">¥12 / ¥100</span></div>
+        <div class="group-desc">目标 ¥100 · 邀请 2 位好友即可达成</div>
+      </div>
+      <button class="group-create-btn" onclick="closeGroup(); showToast('已创建，分享给好友吧','✓');">发起一起捐</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"><div class="toast-icon">✓</div><div id="toastText">已订阅</div></div>
+</div>
+</div>
+
+<script>
+const chat = document.getElementById('chat');
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const scroll = () => setTimeout(() => { chat.scrollTop = chat.scrollHeight; }, 40);
+
+function ts(t) {
+  const el = document.createElement('div');
+  el.className = 'ts'; el.innerHTML = `<span>${t}</span>`;
+  chat.appendChild(el); scroll();
+}
+
+async function userMsg(txt) {
+  const el = document.createElement('div');
+  el.className = 'msg user';
+  el.innerHTML = `<div class="bubble">${txt}</div><div class="av">👤</div>`;
+  chat.appendChild(el); scroll(); await wait(70);
+}
+
+async function agentMsg(html, typingMs = 750) {
+  const t = document.createElement('div');
+  t.className = 'typing-wrap';
+  t.innerHTML = `<div class="av">走</div><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  chat.appendChild(t); scroll(); await wait(typingMs); t.remove();
+  const el = document.createElement('div');
+  el.className = 'msg agent';
+  el.innerHTML = `<div class="av">走</div><div class="bubble">${html}</div>`;
+  chat.appendChild(el); scroll(); await wait(60);
+}
+
+function addCard(html, delay = 0) {
+  return new Promise(async r => {
+    if (delay) await wait(delay);
+    const w = document.createElement('div');
+    w.className = 'card-wrap'; w.innerHTML = html;
+    chat.appendChild(w); scroll(); await wait(60); r();
+  });
+}
+
+function openSheet() { document.getElementById('projSheet').classList.add('show'); }
+function closeSheet() { document.getElementById('projSheet').classList.remove('show'); }
+
+function projRow() {
+  return `<div class="proj-row" onclick="openSheet()">
+    <div class="proj-row-left"><span class="proj-row-icon">🍳</span><span class="proj-row-name">帮村校孩子做一顿好饭</span></div>
+    <span class="proj-row-arrow">了解项目 ›</span>
+  </div>`;
+}
+
+function openPay() { document.getElementById('paySheet').classList.add('show'); }
+function closePay() { document.getElementById('paySheet').classList.remove('show'); }
+async function payDone() { closePay(); showToast('支付成功', '✓'); }
+
+function openSub() { document.getElementById('subSheet').classList.add('show'); }
+function closeSub() { document.getElementById('subSheet').classList.remove('show'); }
+async function subDone() { closeSub(); showToast('已订阅明日提醒', '✓'); }
+
+function openGroup() { document.getElementById('groupSheet').classList.add('show'); }
+function closeGroup() { document.getElementById('groupSheet').classList.remove('show'); }
+
+function showToast(text, icon = '✓') {
+  const t = document.getElementById('toast');
+  document.getElementById('toastText').textContent = text;
+  t.querySelector('.toast-icon').textContent = icon;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+async function startLow() {
+  ts('今天 13:40');
+  await wait(300);
+  await userMsg('捐步');
+  await agentMsg('今天还没攒够呢，走走？🚶', 700);
+  await addCard(`
+    <div class="low-card">
+      <div class="low-top">
+        <div class="low-label">今天走了</div>
+        <div class="low-num">2,217<span> / 6,000步</span></div>
+        <div class="low-bar"><div class="low-fill" style="width:37%"></div></div>
+        <div class="low-sub">还差 3,783 步 · 不着急，下午还有大半天 ☀️</div>
+      </div>
+      <div class="low-body">
+        <div class="low-main-hint">走到了随时发 <b>「捐步」</b>，我在</div>
+        <div style="margin: 6px 0 12px">${projRow()}</div>
+        <div class="low-alt">
+          <button class="soft-btn" onclick="openPay()">今天直接捐一笔</button>
+          <button class="low-ghost" onclick="openSub()">提醒我明天捐步</button>
+        </div>
+      </div>
+    </div>`, 350);
+}
+
+startLow();
+</script>
+</body>
+</html>
