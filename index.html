@@ -91,8 +91,8 @@ body {
 .ts { text-align: center; font-size: 11px; color: #888; margin: 2px 0 14px; }
 .ts span { background: rgba(160,160,160,0.32); color: #fff; padding: 2px 10px; border-radius: 3px; }
 
-.msg { display: flex; align-items: flex-start; margin-bottom: 3px; opacity: 0; animation: fadeUp 0.25s ease forwards; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.msg { display: flex; align-items: flex-start; margin-bottom: 3px; opacity: 0; animation: fadeUp 0.32s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 .msg.user { justify-content: flex-end; }
 .av { width: 36px; height: 36px; border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .msg.agent .av { background: linear-gradient(135deg, #3d9e4a, #5dc46a); color: #fff; font-size: 12px; font-weight: 700; margin-right: 8px; }
@@ -108,10 +108,10 @@ body {
 .typing-wrap .av { background: linear-gradient(135deg, #3d9e4a, #5dc46a); color: #fff; font-size: 12px; font-weight: 700; margin-right: 8px; width: 36px; height: 36px; border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .typing-dots { display: flex; gap: 4px; padding: 11px 14px; background: #fff; border-radius: 6px; width: fit-content; position: relative; }
 .typing-dots::after { content:''; position:absolute; top:10px; left:-5px; border:6px solid transparent; border-right-color:#fff; border-left:none; }
-.dot { width: 6px; height: 6px; border-radius: 50%; background: #c0c0c0; animation: pulse 1.3s infinite; }
-.dot:nth-child(2) { animation-delay: 0.18s; }
-.dot:nth-child(3) { animation-delay: 0.36s; }
-@keyframes pulse { 0%,80% { opacity:.3; transform:scale(.9); } 40% { opacity:1; transform:scale(1.15); } }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: #c0c0c0; animation: pulse 1.5s infinite ease-in-out; }
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse { 0%,80% { opacity:.3; transform:scale(.85); } 40% { opacity:1; transform:scale(1.1); } }
 
 /* Quick buttons */
 .qgroup { margin-left: 44px; margin-top: 7px; margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 6px; max-width: 250px; opacity: 0; animation: fadeUp 0.25s 0.08s ease forwards; }
@@ -119,8 +119,8 @@ body {
 .qbtn.used { color: #bbb; background: #f5f5f5; pointer-events: none; border-color: #eee; }
 
 /* Card wrap */
-.card-wrap { margin-left: 44px; margin-top: 4px; margin-bottom: 8px; max-width: 258px; opacity: 0; animation: cardIn 0.3s ease forwards; }
-@keyframes cardIn { from { opacity:0; transform:translateY(10px) scale(.98); } to { opacity:1; transform:translateY(0) scale(1); } }
+.card-wrap { margin-left: 44px; margin-top: 6px; margin-bottom: 12px; max-width: 258px; opacity: 0; animation: cardIn 0.38s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+@keyframes cardIn { from { opacity:0; transform:translateY(12px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
 
 /* Input bar */
 .inputbar { position: absolute; bottom: 0; left: 0; right: 0; height: 52px; background: #f7f7f7; border-top: 0.5px solid #d9d9d9; display: flex; align-items: center; padding: 0 10px; gap: 9px; }
@@ -128,7 +128,7 @@ body {
 .inputbar-fake { flex: 1; height: 34px; background: #fff; border-radius: 17px; border: 0.5px solid #ddd; display: flex; align-items: center; padding: 0 14px; font-size: 14px; color: #c0c0c0; }
 
 /* ═══════ WEEK DOTS ═══════ */
-.week-row { display: flex; justify-content: space-between; padding: 10px 16px 0; }
+.week-row { display: flex; justify-content: space-between; padding: 12px 16px 4px; }
 .wd { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .wd-dot { width: 8px; height: 8px; border-radius: 50%; background: #d9d9d9; transition: all 0.3s; }
 .wd-dot.done { background: #3d9e4a; }
@@ -139,100 +139,91 @@ body {
 
 /* ═══════ INITIAL STEP CARD ═══════ */
 .step-card {
-  background: #fff; border-radius: 14px; overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08); border: 0.5px solid rgba(0,0,0,0.07);
+  background: #fff; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06); border: 0.5px solid rgba(0,0,0,0.05);
 }
 .step-card-top {
-  background: linear-gradient(160deg, #e8f7ec 0%, #f0faf2 100%);
-  padding: 14px 16px 12px; position: relative;
+  padding: 20px 16px 14px; position: relative;
 }
-.step-label { font-size: 11px; color: #6ab376; font-weight: 500; margin-bottom: 4px; }
-.step-main { display: flex; align-items: baseline; gap: 3px; margin-bottom: 2px; }
-.step-num { font-size: 34px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.02em; line-height: 1; }
-.step-unit { font-size: 14px; color: #666; font-weight: 400; }
-.step-equiv { font-size: 11px; color: #8ebc96; margin-top: 3px; }
+.step-label { font-size: 11px; color: #999; font-weight: 400; margin-bottom: 2px; }
+.step-main { display: flex; align-items: baseline; gap: 4px; margin-bottom: 0; }
+.step-num { font-size: 40px; font-weight: 800; color: #1a1a1a; letter-spacing: -0.03em; line-height: 1; }
+.step-unit { font-size: 15px; color: #888; font-weight: 400; }
+.step-equiv { font-size: 11px; color: #aaa; margin-top: 6px; }
 .double-badge {
-  position: absolute; top: 12px; right: 12px;
+  position: absolute; top: 16px; right: 14px;
   background: #ff6b1a; color: #fff; font-size: 10px; font-weight: 600;
-  padding: 3px 7px; border-radius: 10px;
+  padding: 3px 8px; border-radius: 10px;
 }
 
-/* 项目链接行（捐步前可点击） */
+/* 项目链接行 */
 .proj-row {
   display: flex; align-items: center; justify-content: space-between;
-  margin: 10px 16px 0; padding: 9px 11px;
-  background: rgba(61,158,74,0.07); border-radius: 8px;
-  cursor: pointer; transition: background 0.12s;
+  margin: 12px 16px 0; padding: 0;
+  background: none; border-radius: 0;
+  cursor: pointer; transition: opacity 0.12s;
 }
-.proj-row:active { background: rgba(61,158,74,0.13); }
-.proj-row-left { display: flex; align-items: center; gap: 6px; }
-.proj-row-icon { font-size: 15px; }
+.proj-row:active { opacity: 0.6; }
+.proj-row-left { display: flex; align-items: center; gap: 5px; }
+.proj-row-icon { font-size: 14px; }
 .proj-row-name { font-size: 12px; color: #3d9e4a; font-weight: 500; }
-.proj-row-arrow { font-size: 12px; color: #a8d4ad; }
+.proj-row-arrow { font-size: 11px; color: #c0c0c0; }
 
-.step-card-body { padding: 12px 16px 14px; }
+.step-card-body { padding: 16px 16px 18px; border-top: 0.5px solid #f0f0f0; margin-top: 12px; }
 .donate-btn {
-  width: 100%; height: 44px; border: none; border-radius: 10px;
+  width: 100%; height: 48px; border: none; border-radius: 24px;
   background: linear-gradient(135deg, #3d9e4a, #5dc46a);
   color: #fff; font-size: 16px; font-weight: 600;
-  cursor: pointer; letter-spacing: 0.03em;
-  box-shadow: 0 3px 10px rgba(61,158,74,0.28); transition: all 0.15s;
+  cursor: pointer; letter-spacing: 0.02em;
+  box-shadow: 0 4px 16px rgba(61,158,74,0.22); transition: all 0.15s;
 }
-.donate-btn:active { transform: scale(0.97); }
-.donate-btn:disabled { background: linear-gradient(135deg, #b0b0b0, #c8c8c8); box-shadow: none; cursor: default; }
+.donate-btn:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(61,158,74,0.18); }
+.donate-btn:disabled { background: linear-gradient(135deg, #b8b8b8, #d0d0d0); box-shadow: none; cursor: default; }
 
 /* ═══════ SUCCESS CARD (new message) ═══════ */
 .success-card {
-  background: #fff; border-radius: 14px; overflow: hidden;
-  box-shadow: 0 2px 12px rgba(61,158,74,0.12); border: 1px solid rgba(61,158,74,0.18);
+  background: #fff; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 2px 16px rgba(61,158,74,0.08); border: 1px solid rgba(61,158,74,0.1);
 }
 .success-top {
-  background: linear-gradient(160deg, #d4f0da 0%, #e4f7e8 100%);
-  padding: 14px 16px 12px; position: relative;
+  padding: 18px 16px 14px; position: relative;
 }
 .success-check {
-  display: flex; align-items: center; gap: 6px; margin-bottom: 6px;
+  display: inline-flex; align-items: center; gap: 4px; margin-bottom: 10px;
+  background: #e8f5ea; padding: 3px 9px 3px 5px; border-radius: 12px;
 }
 .check-icon {
-  width: 20px; height: 20px; border-radius: 50%;
-  background: #3d9e4a; color: #fff; font-size: 11px; font-weight: 700;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #3d9e4a; color: #fff; font-size: 9px; font-weight: 700;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.check-label { font-size: 13px; font-weight: 600; color: #2a6e30; }
-.success-impact { font-size: 16px; font-weight: 600; color: #1a1a1a; line-height: 1.4; margin-bottom: 2px; }
-.success-impact-sub { font-size: 12px; color: #6ab376; }
+.check-label { font-size: 11px; font-weight: 600; color: #3d9e4a; }
+.success-impact { font-size: 20px; font-weight: 800; color: #111; line-height: 1.3; margin-bottom: 6px; }
+.success-impact-sub { font-size: 12px; color: #999; font-weight: 400; }
 
-.success-body { padding: 10px 16px 14px; }
+.success-body { padding: 0 16px 16px; }
 
-/* 累计 · 社区感区块 */
+/* 累计 · 社区：合为一个浅灰信息组 */
+.info-group {
+  background: #f8f9f8; border-radius: 12px; padding: 12px 14px;
+  margin: 14px 0;
+}
 .count-row {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 7px 0 8px; border-top: 0.5px solid #e8f5ea; border-bottom: 0.5px solid #e8f5ea;
+  padding: 0 0 10px; border-bottom: 0.5px solid #eee;
   margin-bottom: 10px;
 }
 .count-cell { flex: 1; text-align: center; }
-.count-cell + .count-cell { border-left: 0.5px solid #e8f5ea; }
-/* 默认 quiet 态：小号灰绿，不抢主 impact */
-.count-num { font-size: 13px; font-weight: 600; color: #6a8a70; line-height: 1.15; letter-spacing: -0.01em; }
-.count-num .count-unit { font-size: 10px; color: #9ab8a0; font-weight: 500; margin-left: 1px; }
-.count-label { font-size: 10px; color: #aec2b3; margin-top: 2px; }
-.count-label b { color: #6a8a70; font-weight: 600; }
-
-/* 节点高亮：整数节点（第10/30/50/100次 或 7/30/100 天）触发 */
-.count-cell.highlight .count-num { font-size: 19px; color: #3d9e4a; font-weight: 700; }
-.count-cell.highlight .count-num .count-unit { font-size: 11px; color: #6ab376; }
-.count-cell.highlight .count-label { color: #5a9e62; font-weight: 600; }
-.count-cell.highlight .count-label b { color: #3d9e4a; }
-.count-cell.highlight { position: relative; }
-.count-cell.highlight::before {
-  content: '✨'; position: absolute; top: -2px; right: 4px;
-  font-size: 10px; opacity: 0.9;
-}
+.count-cell + .count-cell { border-left: 0.5px solid #eee; }
+.count-num { font-size: 16px; font-weight: 700; color: #333; line-height: 1.15; letter-spacing: -0.01em; }
+.count-num .count-unit { font-size: 11px; color: #999; font-weight: 500; margin-left: 1px; }
+.count-label { font-size: 10px; color: #aaa; margin-top: 3px; }
+.count-label b { color: #3d9e4a; font-weight: 600; }
 
 .together-row {
   display: flex; align-items: center; gap: 8px;
-  padding: 8px 10px; margin-bottom: 10px;
-  background: #f4faf5; border-radius: 8px;
+  padding: 0; margin: 0;
+  background: none; border-radius: 0;
 }
 .together-avatars { display: flex; flex-shrink: 0; }
 .together-av {
@@ -255,32 +246,44 @@ body {
   margin-bottom: 10px; padding: 0;
 }
 .outline-btn {
-  width: 100%; height: 40px; border: 1px solid #d5e8d6; border-radius: 10px;
+  width: 100%; height: 42px; border: 1px solid #e8e8e8; border-radius: 22px;
   background: #fff; color: #3d9e4a; font-size: 14px; font-weight: 500;
   cursor: pointer; transition: all 0.12s; margin-bottom: 8px;
 }
-.outline-btn:active { background: #f0f9f0; }
+.outline-btn:active { background: #f8faf8; }
 .ghost-btn {
-  width: 100%; height: 36px; border: none; background: transparent;
-  color: #bbb; font-size: 13px; cursor: pointer;
+  width: 100%; height: 30px; border: none; background: transparent;
+  color: #c5c5c5; font-size: 11px; cursor: pointer;
 }
 .ghost-btn:active { color: #888; }
 
 /* ═══════ LOW STEPS CARD ═══════ */
 .low-card {
-  background: #fff; border-radius: 14px; overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08); border: 0.5px solid rgba(0,0,0,0.07);
+  background: #fff; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06); border: 0.5px solid rgba(0,0,0,0.05);
 }
-.low-top { background: linear-gradient(160deg, #f5f5f5 0%, #fafafa 100%); padding: 14px 16px 10px; }
-.low-label { font-size: 11px; color: #aaa; margin-bottom: 4px; }
-.low-num { font-size: 30px; font-weight: 700; color: #444; letter-spacing: -0.02em; margin-bottom: 6px; }
-.low-num span { font-size: 14px; color: #aaa; font-weight: 400; }
-.low-bar { height: 5px; background: #ececec; border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
+.low-top { padding: 22px 18px 16px; background: linear-gradient(180deg, #f6fbf7 0%, #fff 100%); }
+.low-label { font-size: 11px; color: #999; margin-bottom: 3px; }
+.low-num { font-size: 36px; font-weight: 800; color: #222; letter-spacing: -0.03em; margin-bottom: 10px; }
+.low-num span { font-size: 14px; color: #bbb; font-weight: 400; }
+.low-bar { height: 6px; background: #ececec; border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
 .low-fill { height: 100%; background: linear-gradient(90deg, #5dc46a, #3d9e4a); border-radius: 3px; }
 .low-sub { font-size: 11px; color: #aaa; }
-.low-body { padding: 10px 16px 14px; }
-.low-msg { font-size: 14px; color: #555; line-height: 1.55; margin-bottom: 10px; }
-.low-body .proj-row { margin: 0 0 10px; }
+.low-body { padding: 14px 18px 18px; }
+.low-msg { font-size: 11px; color: #bbb; margin-bottom: 0; line-height: 1.4; }
+.low-body .proj-row { margin: 0 0 0; }
+
+/* 主信息：走到了发捐步 */
+.low-main-hint {
+  text-align: center; padding: 14px 0 12px;
+  font-size: 14px; color: #333; font-weight: 500; line-height: 1.5;
+}
+.low-main-hint b { color: #3d9e4a; font-weight: 700; font-size: 15px; }
+
+/* 次要操作区 */
+.low-alt {
+  border-top: 0.5px solid #f0f0f0; padding-top: 16px; margin-top: 0;
+}
 
 /* 被动承接：小字说明，不是按钮 */
 .low-hint {
@@ -301,18 +304,18 @@ body {
 
 /* 次按钮（淡色） */
 .soft-btn {
-  width: 100%; height: 38px; border: 1px solid #e0e8e0; border-radius: 10px;
-  background: #fafbfa; color: #6a8a70; font-size: 13px; font-weight: 500;
-  cursor: pointer; transition: all 0.12s; margin-bottom: 6px;
+  width: 100%; height: 40px; border: 1px solid #e8e8e8; border-radius: 20px;
+  background: #fff; color: #888; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.12s; margin-bottom: 8px;
 }
-.soft-btn:active { background: #f0f5f0; }
+.soft-btn:active { background: #f8f8f8; }
 
 /* 幽灵按钮（最弱） */
 .low-ghost {
-  width: 100%; height: 34px; border: none; background: transparent;
-  color: #a5a5a5; font-size: 12px; cursor: pointer;
+  width: 100%; height: 30px; border: none; background: transparent;
+  color: #c0c0c0; font-size: 11px; cursor: pointer;
 }
-.low-ghost:active { color: #7a7a7a; }
+.low-ghost:active { color: #888; }
 
 /* ═══════ 微信原生付款面板（从底部升起） ═══════ */
 .pay-overlay {
@@ -417,6 +420,45 @@ body {
 .sub-btn-cancel { background: #f2f2f2; color: #111; }
 .sub-btn-ok { background: #07c160; color: #fff; }
 
+/* ═══════ 一起捐半屏 ═══════ */
+.group-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.4);
+  z-index: 55; opacity: 0; pointer-events: none; transition: opacity 0.22s;
+}
+.group-overlay.show { opacity: 1; pointer-events: all; }
+.group-sheet {
+  position: absolute; bottom: 0; left: 0; right: 0; background: #fff;
+  border-radius: 16px 16px 0 0; transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); max-height: 70%; overflow-y: auto;
+  padding: 20px 18px 28px;
+}
+.group-overlay.show .group-sheet { transform: translateY(0); }
+.group-hd { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 6px; }
+.group-sub { font-size: 13px; color: #888; margin-bottom: 18px; line-height: 1.5; }
+.group-card {
+  background: #f8f9f8; border-radius: 12px; padding: 16px; margin-bottom: 14px;
+}
+.group-card-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 8px; }
+.group-members { display: flex; align-items: center; gap: -4px; margin-bottom: 8px; }
+.group-av {
+  width: 28px; height: 28px; border-radius: 50%; border: 2px solid #fff;
+  margin-left: -6px; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: #fff; font-weight: 600;
+}
+.group-av:first-child { margin-left: 0; }
+.group-progress { display: flex; align-items: center; gap: 8px; }
+.group-bar { flex: 1; height: 6px; background: #e8e8e8; border-radius: 3px; overflow: hidden; }
+.group-bar-fill { height: 100%; background: linear-gradient(90deg, #5dc46a, #3d9e4a); border-radius: 3px; }
+.group-pct { font-size: 12px; color: #3d9e4a; font-weight: 600; }
+.group-desc { font-size: 11px; color: #999; margin-top: 6px; }
+.group-create-btn {
+  width: 100%; height: 46px; border: none; border-radius: 23px;
+  background: linear-gradient(135deg, #3d9e4a, #5dc46a);
+  color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(61,158,74,0.2); margin-top: 6px;
+}
+.group-create-btn:active { transform: scale(0.97); }
+
 /* ═══════ Toast ═══════ */
 .toast {
   position: absolute; top: 50%; left: 50%;
@@ -439,20 +481,20 @@ body {
 
 /* ═══════ MILESTONE CARD ═══════ */
 .milestone-card {
-  background: #fff; border-radius: 14px; overflow: hidden;
-  box-shadow: 0 2px 12px rgba(61,158,74,0.15); border: 1px solid rgba(61,158,74,0.2);
+  background: #fff; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 2px 16px rgba(61,158,74,0.12); border: 1px solid rgba(61,158,74,0.15);
 }
 .milestone-top {
-  background: linear-gradient(160deg, #c8edce 0%, #d8f2dc 100%);
-  padding: 16px 16px 12px; position: relative;
+  background: linear-gradient(160deg, #c8edce 0%, #ddf4e0 100%);
+  padding: 18px 16px 14px; position: relative;
 }
 .milestone-badge {
   display: inline-flex; align-items: center; gap: 4px;
   background: #3d9e4a; color: #fff; font-size: 11px; font-weight: 700;
-  padding: 3px 10px; border-radius: 12px; margin-bottom: 8px;
+  padding: 4px 10px; border-radius: 12px; margin-bottom: 10px;
 }
-.milestone-num { font-size: 32px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.02em; }
-.milestone-sub { font-size: 12px; color: #5a9e62; margin-top: 2px; }
+.milestone-num { font-size: 38px; font-weight: 800; color: #1a1a1a; letter-spacing: -0.03em; }
+.milestone-sub { font-size: 12px; color: #5a9e62; margin-top: 4px; }
 .milestone-confetti { position: absolute; top: 10px; right: 12px; font-size: 28px; animation: float 2s ease-in-out infinite; }
 @keyframes float { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-4px) rotate(8deg); } }
 .milestone-body { padding: 12px 16px 14px; }
@@ -469,38 +511,94 @@ body {
 
 /* ─── HALF SHEET ─── */
 .half-overlay {
-  position: absolute; inset: 0; background: rgba(0,0,0,0.45);
+  position: absolute; inset: 0; background: rgba(0,0,0,0.4);
   z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.22s;
 }
 .half-overlay.show { opacity: 1; pointer-events: all; }
 .half-sheet {
   position: absolute; bottom: 0; left: 0; right: 0; background: #fff;
   border-radius: 16px 16px 0 0; transform: translateY(100%);
-  transition: transform 0.32s cubic-bezier(0.4,0,0.2,1); max-height: 78%; overflow-y: auto;
+  transition: transform 0.32s cubic-bezier(0.4,0,0.2,1); max-height: 82%; overflow-y: auto;
 }
 .half-overlay.show .half-sheet { transform: translateY(0); }
 .hs-handle { width: 36px; height: 4px; background: #ddd; border-radius: 2px; margin: 10px auto 0; }
 .proj-hero {
-  height: 150px; position: relative;
+  height: 160px; position: relative;
   background: linear-gradient(160deg, #c5e8c9 0%, #7bc98a 60%, #4ca85a 100%);
   display: flex; align-items: center; justify-content: center; font-size: 60px;
 }
 .proj-hero-tag {
-  position: absolute; bottom: 10px; left: 12px;
-  background: rgba(0,0,0,0.45); color: #fff; font-size: 10px;
-  padding: 3px 9px; border-radius: 10px; backdrop-filter: blur(4px);
+  position: absolute; bottom: 12px; left: 14px;
+  background: rgba(0,0,0,0.5); color: #fff; font-size: 11px;
+  padding: 4px 10px; border-radius: 10px; backdrop-filter: blur(4px);
 }
-.hs-content { padding: 16px 18px 36px; }
-.hs-proj-title { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 5px; }
-.hs-trust { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+.hs-content { padding: 20px 18px 90px; }
+.hs-proj-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 8px; }
+.hs-trust { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
 .trust-badge {
   display: inline-flex; align-items: center; gap: 3px; background: #f0f9f1; color: #3d9e4a;
-  font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px; border: 0.5px solid #c5e8c9;
+  font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 0.5px solid #c5e8c9;
 }
 .trust-org { font-size: 11px; color: #888; }
+
+/* 善款接收 / 执行机构行 */
+.org-section { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 0.5px solid #f0f0f0; }
+.org-row {
+  display: flex; align-items: center; padding: 12px 0;
+  border-bottom: 0.5px solid #f5f5f5;
+}
+.org-row:last-child { border-bottom: none; }
+.org-label { font-size: 12px; color: #999; flex-shrink: 0; width: 72px; }
+.org-value { display: flex; align-items: center; gap: 8px; flex: 1; }
+.org-icon { width: 24px; height: 24px; border-radius: 6px; background: #f0f9f1; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.org-name { font-size: 14px; color: #111; font-weight: 500; }
+.org-arrow { font-size: 12px; color: #d0d0d0; margin-left: auto; }
+
+/* 模块标题 */
+.section-title { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 12px; }
+
+/* 项目介绍 */
+.proj-intro {
+  font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 20px;
+  padding: 14px 14px; background: #f9f9f9; border-radius: 10px;
+}
+
+/* 捐赠情况区块 */
+.donate-stats { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 0.5px solid #f0f0f0; }
+.donate-stats-hd { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 14px; }
+.donate-ring-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+.ring-wrap {
+  width: 68px; height: 68px; border-radius: 50%; flex-shrink: 0;
+  background: conic-gradient(#e53935 0% 18.1%, #f0f0f0 18.1% 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.ring-inner {
+  width: 52px; height: 52px; border-radius: 50%; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; color: #e53935;
+}
+.ring-data { flex: 1; }
+.ring-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; }
+.ring-label { font-size: 12px; color: #999; }
+.ring-value { font-size: 13px; color: #111; font-weight: 600; }
+.donate-total { font-size: 12px; color: #666; margin-bottom: 10px; line-height: 1.6; }
+.donate-total b { color: #111; font-weight: 600; }
+.live-donate {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; background: #f8f8f8; border-radius: 10px;
+}
+.live-av {
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+}
+.live-txt { flex: 1; font-size: 12px; color: #555; }
+.live-time { font-size: 11px; color: #bbb; flex-shrink: 0; }
+
 .urgency-bar {
-  background: #fffbf0; border: 0.5px solid #ffe5a0; border-radius: 8px;
-  padding: 9px 12px; margin-bottom: 12px;
+  background: #fffbf0; border: 0.5px solid #ffe5a0; border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 14px;
   display: flex; align-items: center; justify-content: space-between;
 }
 .urgency-left { font-size: 12px; color: #b87a00; line-height: 1.5; }
@@ -508,29 +606,65 @@ body {
 .urgency-right { font-size: 11px; color: #cca030; text-align: right; line-height: 1.5; }
 .my-contrib {
   background: linear-gradient(135deg, #f0f9f1, #e4f5e6);
-  border-left: 3px solid #3d9e4a; border-radius: 0 8px 8px 0;
-  padding: 10px 12px; margin-bottom: 14px; font-size: 13px; color: #2a6e30; line-height: 1.5;
+  border-left: 3px solid #3d9e4a; border-radius: 0 10px 10px 0;
+  padding: 12px 14px; margin-bottom: 20px; font-size: 13px; color: #2a6e30; line-height: 1.5;
 }
 .my-contrib b { font-weight: 700; }
-.update-section { margin-bottom: 16px; }
-.update-hd { font-size: 12px; font-weight: 600; color: #888; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 8px; }
-.update-date { font-size: 11px; color: #bbb; margin-bottom: 4px; }
-.update-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 6px; }
-.update-body { font-size: 13px; color: #555; line-height: 1.6; }
-.update-photos { display: flex; gap: 6px; margin-top: 10px; }
+.update-section { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 0.5px solid #f0f0f0; }
+.update-hd { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 12px; }
+.update-date { font-size: 11px; color: #bbb; margin-bottom: 6px; }
+.update-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 8px; }
+.update-body { font-size: 13px; color: #555; line-height: 1.7; }
+.update-photos { display: flex; gap: 8px; margin-top: 12px; }
 .update-photo {
-  flex: 1; height: 58px; border-radius: 7px;
-  background: linear-gradient(135deg, #b8dfbd, #8ec995);
-  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  flex: 1; height: 72px; border-radius: 10px;
+  background: linear-gradient(135deg, #e8f5ea, #c8e6c9);
+  display: flex; align-items: center; justify-content: center; font-size: 11px; color: #6a8a70;
 }
-.hs-more { font-size: 13px; color: #3d9e4a; margin-bottom: 16px; cursor: pointer; }
-.hs-more span { font-size: 10px; color: #aaa; }
-.hs-jump {
-  width: 100%; height: 48px; border: none; border-radius: 10px;
-  background: linear-gradient(135deg, #3d9e4a, #5dc46a);
-  color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 5px;
+
+/* 爱心留言 */
+.comment-section { margin-bottom: 20px; }
+.comment-hd { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 12px; }
+.comment-item {
+  display: flex; gap: 10px; padding: 10px 0;
+  border-bottom: 0.5px solid #f5f5f5;
 }
+.comment-item:last-child { border-bottom: none; }
+.comment-av {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: linear-gradient(135deg, #f0d0b0, #e8c0a0);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: #fff; font-weight: 600; flex-shrink: 0;
+}
+.comment-body { flex: 1; }
+.comment-name { font-size: 13px; color: #111; font-weight: 500; }
+.comment-name span { font-size: 11px; color: #bbb; font-weight: 400; margin-left: 8px; }
+.comment-txt { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.5; }
+
+/* 底栏三按钮 */
+.hs-footer {
+  position: sticky; bottom: 0; left: 0; right: 0;
+  background: #fff; border-top: 0.5px solid #eee;
+  padding: 12px 16px 18px; display: flex; align-items: center; gap: 10px;
+  z-index: 10; box-shadow: 0 -2px 10px rgba(0,0,0,0.04);
+}
+.hs-footer-icon {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; font-size: 9px; color: #888; cursor: pointer; flex-shrink: 0; width: 44px;
+}
+.hs-footer-icon .fi-ic { font-size: 20px; }
+.hs-btn-monthly {
+  flex: 1; height: 44px; border: none; border-radius: 22px;
+  background: #ff9500; color: #fff; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all 0.12s;
+}
+.hs-btn-monthly:active { opacity: 0.85; transform: scale(0.97); }
+.hs-btn-donate {
+  flex: 1; height: 44px; border: none; border-radius: 22px;
+  background: #e53935; color: #fff; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all 0.12s;
+}
+.hs-btn-donate:active { opacity: 0.85; transform: scale(0.97); }
 </style>
 </head>
 <body>
@@ -559,11 +693,6 @@ body {
     <div class="pb-label">步数不足</div>
     <div class="pb-title">🚶 还没走够</div>
     <div class="pb-desc">不催 · 走够了发捐步 · 可直接捐</div>
-  </button>
-  <button class="path-btn" data-p="milestone" onclick="load('milestone')">
-    <div class="pb-label">特殊时刻</div>
-    <div class="pb-title">🔥 连续 30 天里程碑</div>
-    <div class="pb-desc">峰值体验 · 可分享朋友圈</div>
   </button>
 
   <div class="sb-note">
@@ -613,31 +742,114 @@ body {
         <div class="proj-hero-tag">捐一元村校厨房焕新 · 百胜中国配捐</div>
       </div>
       <div class="hs-content">
+        <!-- 1. 项目名称 -->
         <div class="hs-proj-title">捐一元村校厨房焕新</div>
         <div class="hs-trust">
           <span class="trust-badge">✓ 平台 12 年项目</span>
-          <span class="trust-org">中国乡村发展基金会 · 全国执行</span>
+          <span class="trust-badge">电子捐赠票据</span>
         </div>
-        <div class="urgency-bar">
-          <div class="urgency-left">还差 <b>¥342</b> 就筹满这一批</div>
-          <div class="urgency-right">今天 <b>24 人</b><br>在捐步</div>
+
+        <!-- 2. 善款接收 / 执行机构 -->
+        <div class="org-section">
+          <div class="org-row">
+            <div class="org-label">善款接收：</div>
+            <div class="org-value">
+              <div class="org-icon">🌱</div>
+              <span class="org-name">中国乡村发展基金会</span>
+            </div>
+            <span class="org-arrow">›</span>
+          </div>
+          <div class="org-row">
+            <div class="org-label">执行机构：</div>
+            <div class="org-value">
+              <div class="org-icon">🏫</div>
+              <span class="org-name">百胜中国</span>
+            </div>
+            <span class="org-arrow">›</span>
+          </div>
         </div>
-        <div class="my-contrib">
-          你本月捐步换算了 <b>¥8.7</b>，进了这个项目第 38 批物资。
-        </div>
+
+        <!-- 3. 最新进展 -->
         <div class="update-section">
           <div class="update-hd">最新进展</div>
           <div class="update-date">2026 / 03 / 16 · 中国乡村发展基金会</div>
           <div class="update-title">爱心厨房设备让光盘行动更轻松</div>
           <div class="update-body">四川仪陇县 5 所学校的新厨房设备上个月正式投入使用，孩子们第一次在宽敞明亮的地方吃上了热饭——以前只能在漏风的棚子里蹲着吃。</div>
           <div class="update-photos">
-            <div class="update-photo">🍱</div>
-            <div class="update-photo">👨‍🍳</div>
-            <div class="update-photo">🏫</div>
+            <div class="update-photo">厨房实拍</div>
+            <div class="update-photo">孩子用餐</div>
+            <div class="update-photo">设备安装</div>
           </div>
         </div>
-        <div class="hs-more">查看全部 58 条进展 <span>→ 跳转小程序</span></div>
-        <button class="hs-jump" onclick="closeSheet()">前往小程序查看 ↗</button>
+
+        <!-- 4. 项目介绍 -->
+        <div class="proj-intro">
+          人人可公益，助力欠发达地区儿童营养改善。捐一元，帮助乡村学校改善厨房设施，让每个孩子都能吃上干净卫生的热饭。项目执行地覆盖全国 14 个省份，已惠及超过 3,600 所学校。
+        </div>
+
+        <!-- 5. 捐赠情况 -->
+        <div class="donate-stats">
+          <div class="donate-stats-hd">项目捐赠情况</div>
+          <div class="donate-ring-row">
+            <div class="ring-wrap">
+              <div class="ring-inner">18.1%</div>
+            </div>
+            <div class="ring-data">
+              <div class="ring-row">
+                <span class="ring-label">当期捐赠目标：</span>
+                <span class="ring-value">5,000,000 元</span>
+              </div>
+              <div class="ring-row">
+                <span class="ring-label">当期捐赠金额：</span>
+                <span class="ring-value">902,658 元</span>
+              </div>
+            </div>
+          </div>
+          <div class="donate-total">
+            项目累计捐赠 <b>9,362,411 元</b>，累计捐赠人次 <b>606,346 次</b>。
+          </div>
+          <div class="live-donate">
+            <div class="live-av">🍀</div>
+            <div class="live-txt">吉祥如意 捐出 ¥0.01</div>
+            <div class="live-time">4 秒前</div>
+          </div>
+        </div>
+
+        <!-- 6. 爱心留言 -->
+        <div class="comment-section">
+          <div class="comment-hd">爱心留言</div>
+          <div class="comment-item">
+            <div class="comment-av" style="background:linear-gradient(135deg,#a8d8ea,#86c5d8)">陈</div>
+            <div class="comment-body">
+              <div class="comment-name">陈**<span>¥10 · 3 小时前</span></div>
+              <div class="comment-txt">希望小朋友们能吃上热饭，加油！</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-av" style="background:linear-gradient(135deg,#f0b8b8,#e89898)">李</div>
+            <div class="comment-body">
+              <div class="comment-name">李*<span>¥1 · 昨天</span></div>
+              <div class="comment-txt">每天捐步走一走，积少成多。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-av" style="background:linear-gradient(135deg,#c8b8e8,#b0a0d8)">A孙</div>
+            <div class="comment-body">
+              <div class="comment-name">A孙**<span>开通了月捐</span></div>
+              <div class="comment-txt">坚持做一件小事。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底栏三按钮 -->
+      <div class="hs-footer">
+        <div class="hs-footer-icon" onclick="closeSheet(); setTimeout(openGroup, 350);">
+          <span class="fi-ic">👥</span>
+          <span>一起捐</span>
+        </div>
+        <button class="hs-btn-monthly" onclick="openPay()">每月一捐</button>
+        <button class="hs-btn-donate" onclick="openPay()">捐一笔</button>
       </div>
     </div>
   </div>
@@ -694,6 +906,28 @@ body {
         <button class="sub-btn-cancel" onclick="closeSub()">取消</button>
         <button class="sub-btn-ok" onclick="subDone()">允许</button>
       </div>
+    </div>
+  </div>
+
+  <!-- 一起捐半屏 -->
+  <div class="group-overlay" id="groupSheet" onclick="closeGroup()">
+    <div class="group-sheet" onclick="event.stopPropagation()">
+      <div class="group-hd">一起捐</div>
+      <div class="group-sub">邀请好友一起为「村校厨房焕新」加油，<br>合力完成一段善举。</div>
+      <div class="group-card">
+        <div class="group-card-title">麦麦发起的一起捐</div>
+        <div class="group-members">
+          <div class="group-av" style="background:#5dc46a">麦</div>
+          <div class="group-av" style="background:#ff9500">?</div>
+          <div class="group-av" style="background:#e0e0e0; color:#aaa">+</div>
+        </div>
+        <div class="group-progress">
+          <div class="group-bar"><div class="group-bar-fill" style="width:12%"></div></div>
+          <span class="group-pct">¥12 / ¥100</span>
+        </div>
+        <div class="group-desc">目标 ¥100 · 邀请 2 位好友即可达成</div>
+      </div>
+      <button class="group-create-btn" onclick="closeGroup(); showToast('已创建，分享给好友吧','✓');">发起一起捐</button>
     </div>
   </div>
 
@@ -791,19 +1025,14 @@ function projRow() {
 }
 
 // ── 成功卡片（新消息） ──
-// opts: { streakDays, streakHint, totalCount, totalHint, userRank, togetherTotal, showShare }
+// opts: { streakDays, streakHint, totalCount, userRank, showShare }
 function successCard(opts) {
   const {
     streakDays, streakHint = '',
-    totalCount, totalHint = '',
-    userRank = 12453,           // 用户是今天第几个捐步的
-    togetherTotal = 23847,      // 今天总共多少人
+    totalCount,
+    userRank = 12453,
     showShare = false
   } = opts;
-
-  // 节点高亮逻辑：整数节点才放大
-  const countMilestone = [10, 30, 50, 100, 128, 200, 365, 500].includes(totalCount);
-  const streakMilestone = [7, 14, 30, 100, 365].includes(streakDays);
 
   return `<div class="success-card">
     <div class="success-top">
@@ -811,34 +1040,36 @@ function successCard(opts) {
         <div class="check-icon">✓</div>
         <div class="check-label">今日已捐步</div>
       </div>
-      <div class="success-impact">帮 3 个孩子吃上了热饭 🍱</div>
+      <div class="success-impact">帮 3 个孩子吃上了热饭</div>
       <div class="success-impact-sub">8,234步 · ¥0.41 进入「村校厨房」项目</div>
     </div>
     ${weekDots(true)}
     <div class="success-body">
-      <div class="count-row">
-        <div class="count-cell${countMilestone ? ' highlight' : ''}">
-          <div class="count-num">第 ${totalCount}<span class="count-unit">次</span></div>
-          <div class="count-label">${totalHint || '累计捐步'}</div>
+      <div class="info-group">
+        <div class="count-row">
+          <div class="count-cell">
+            <div class="count-num">第 ${totalCount}<span class="count-unit">次</span></div>
+            <div class="count-label">累计捐步</div>
+          </div>
+          <div class="count-cell">
+            <div class="count-num">${streakDays}<span class="count-unit">天</span></div>
+            <div class="count-label">🔥 本周连续${streakHint ? ' · ' + streakHint : ''}</div>
+          </div>
         </div>
-        <div class="count-cell${streakMilestone ? ' highlight' : ''}">
-          <div class="count-num">${streakDays}<span class="count-unit">天</span></div>
-          <div class="count-label">🔥 连续${streakHint ? ' · ' + streakHint : ''}</div>
+        <div class="together-row">
+          <div class="together-avatars">
+            <div class="together-av a1">李</div>
+            <div class="together-av a2">王</div>
+            <div class="together-av me">你</div>
+          </div>
+          <div class="together-txt">你是今天第 <b>${userRank.toLocaleString()}</b> 个捐步的人</div>
         </div>
-      </div>
-      <div class="together-row">
-        <div class="together-avatars">
-          <div class="together-av a1">李</div>
-          <div class="together-av a2">王</div>
-          <div class="together-av me">你</div>
-        </div>
-        <div class="together-txt">你是今天第 <b>${userRank.toLocaleString()}</b> 个捐步的人 🤝</div>
       </div>
       ${showShare
         ? `<button class="share-btn" onclick="shareCard()">分享这个时刻</button>`
         : ''}
       <button class="outline-btn" onclick="openSheet()">了解项目进展</button>
-      <button class="ghost-btn" onclick="remindTomorrow()">提醒我明日捐步</button>
+      <button class="ghost-btn" onclick="remindTomorrow()">提醒我明天捐步</button>
     </div>
   </div>`;
 }
@@ -867,12 +1098,10 @@ async function startCan() {
 }
 
 async function confirmDonate() {
-  // 旧卡片按钮变灰——之后不再变化（对齐真实 Agent 行为）
+  // 旧卡片按钮直接变灰（不做中间态）
   const btn = document.getElementById('donateBtn');
-  btn.textContent = '捐出中…';
-  btn.disabled = true;
-  await wait(700);
   btn.textContent = '已捐出 ✓';
+  btn.disabled = true;
 
   // 用户侧显示一条"确认捐出"消息（模拟按钮 intent 触发）
   await userMsg('确认捐出');
@@ -883,7 +1112,6 @@ async function confirmDonate() {
     streakDays: 5,
     streakHint: '再走 2 天就是一周了',
     totalCount: 47,
-    totalHint: '累计帮了 141 人次',
     userRank: 12453,
     showShare: false
   }), 0);
@@ -898,15 +1126,13 @@ async function startDone() {
   ts('今天 20:13');
   await wait(300);
   await userMsg('捐步');
-  await agentMsg('今天已经捐过啦 🌸', 700);
   await addCard(successCard({
     streakDays: 5,
     streakHint: '再走 2 天就是一周了',
     totalCount: 47,
-    totalHint: '累计帮了 141 人次',
     userRank: 12453,
     showShare: false
-  }), 350);
+  }), 700);
 }
 
 // ═══ PATH C：步数不够 ═══
@@ -922,15 +1148,15 @@ async function startLow() {
         <div class="low-label">今天走了</div>
         <div class="low-num">2,217<span> / 6,000步</span></div>
         <div class="low-bar"><div class="low-fill" style="width:37%"></div></div>
-        <div class="low-sub">还差 3,783 步就够捐了</div>
+        <div class="low-sub">还差 3,783 步 · 不着急，下午还有大半天 ☀️</div>
       </div>
       <div class="low-body">
-        <div class="low-msg">不着急，下午还有大半天 ☀️</div>
-        ${projRow()}
-        <div class="low-hint">走到了随时发 <b>「捐步」</b>，我在 🌱</div>
-        <div class="or-divider">或者</div>
-        <button class="soft-btn" onclick="openPay()">今天直接捐一笔</button>
-        <button class="low-ghost" onclick="openSub()">明天这个时候提醒我</button>
+        <div class="low-main-hint">走到了随时发 <b>「捐步」</b>，我在</div>
+        <div style="margin: 6px 0 12px">${projRow()}</div>
+        <div class="low-alt">
+          <button class="soft-btn" onclick="openPay()">今天直接捐一笔</button>
+          <button class="low-ghost" onclick="openSub()">提醒我明天捐步</button>
+        </div>
       </div>
     </div>`, 350);
 }
@@ -950,6 +1176,10 @@ async function subDone() {
   closeSub();
   showToast('已订阅明日提醒', '✓');
 }
+
+// 一起捐
+function openGroup() { document.getElementById('groupSheet').classList.add('show'); }
+function closeGroup() { document.getElementById('groupSheet').classList.remove('show'); }
 
 // Toast
 function showToast(text, icon = '✓') {
@@ -987,9 +1217,11 @@ async function startMilestone() {
 }
 
 async function doMilestone(share) {
-  // 旧卡片静止，按钮变灰
+  // 旧卡片静止，所有按钮变灰
+  const card = document.getElementById('milestoneCard');
+  if (card) { card.querySelectorAll('button').forEach(b => { b.disabled = true; b.style.opacity = '0.5'; b.style.pointerEvents = 'none'; }); }
   const btn = document.getElementById('milestoneBtn');
-  if (btn) { btn.textContent = '已捐出 ✓'; btn.disabled = true; btn.style.background = 'linear-gradient(135deg,#b0b0b0,#c8c8c8)'; btn.style.boxShadow = 'none'; }
+  if (btn) { btn.textContent = '已捐出 ✓'; btn.style.background = 'linear-gradient(135deg,#b0b0b0,#c8c8c8)'; btn.style.boxShadow = 'none'; }
 
   await userMsg('确认捐出');
   await wait(200);
@@ -1002,28 +1234,30 @@ async function doMilestone(share) {
           <div class="check-icon">✓</div>
           <div class="check-label">今日已捐步</div>
         </div>
-        <div class="success-impact">帮 3 个孩子吃上了热饭 🍱</div>
+        <div class="success-impact">帮 3 个孩子吃上了热饭</div>
         <div class="success-impact-sub">8,234步 · ¥0.41 进入「村校厨房」项目</div>
       </div>
       ${weekDots(true)}
       <div class="success-body">
-        <div class="count-row">
-          <div class="count-cell highlight">
-            <div class="count-num">第 128<span class="count-unit">次</span></div>
-            <div class="count-label">累计帮了 <b>384 人次</b></div>
+        <div class="info-group">
+          <div class="count-row">
+            <div class="count-cell">
+              <div class="count-num">第 128<span class="count-unit">次</span></div>
+              <div class="count-label">累计捐步</div>
+            </div>
+            <div class="count-cell">
+              <div class="count-num">30<span class="count-unit">天</span></div>
+              <div class="count-label">🔥 本周连续 · 前 1% 用户</div>
+            </div>
           </div>
-          <div class="count-cell highlight">
-            <div class="count-num">30<span class="count-unit">天</span></div>
-            <div class="count-label">🔥 连续 · 前 1% 用户</div>
+          <div class="together-row">
+            <div class="together-avatars">
+              <div class="together-av a1">李</div>
+              <div class="together-av a2">王</div>
+              <div class="together-av me">你</div>
+            </div>
+            <div class="together-txt">你是今天第 <b>8,326</b> 个捐步的人</div>
           </div>
-        </div>
-        <div class="together-row">
-          <div class="together-avatars">
-            <div class="together-av a1">李</div>
-            <div class="together-av a2">王</div>
-            <div class="together-av me">你</div>
-          </div>
-          <div class="together-txt">你是今天第 <b>8,326</b> 个捐步的人 🤝</div>
         </div>
         <div class="streak-row">
           <span>🙌</span>
@@ -1031,7 +1265,7 @@ async function doMilestone(share) {
         </div>
         ${share ? `<button class="share-btn" onclick="shareCard()">分享到朋友圈</button>` : ''}
         <button class="outline-btn" onclick="openSheet()">了解项目进展</button>
-        <button class="ghost-btn" onclick="remindTomorrow()">提醒我明日捐步</button>
+        <button class="ghost-btn" onclick="remindTomorrow()">提醒我明天捐步</button>
       </div>
     </div>`, 0);
 }
@@ -1045,7 +1279,7 @@ function load(p) {
   document.querySelectorAll('.path-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`[data-p="${p}"]`).classList.add('active');
   clearChat();
-  ({ can: startCan, done: startDone, low: startLow, milestone: startMilestone })[p]?.();
+  ({ can: startCan, done: startDone, low: startLow })[p]?.();
 }
 
 load('can');
