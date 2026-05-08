@@ -119,7 +119,7 @@ body {
 .qbtn.used { color: #bbb; background: #f5f5f5; pointer-events: none; border-color: #eee; }
 
 /* Card wrap */
-.card-wrap { margin-left: 44px; margin-top: 6px; margin-bottom: 12px; max-width: 258px; opacity: 0; animation: cardIn 0.38s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+.card-wrap { margin-left: 44px; margin-top: 6px; margin-bottom: 12px; max-width: 290px; opacity: 0; animation: cardIn 0.38s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
 @keyframes cardIn { from { opacity:0; transform:translateY(12px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
 
 /* Input bar */
@@ -159,15 +159,15 @@ body {
 /* 项目链接行 */
 .proj-row {
   display: flex; align-items: center; justify-content: space-between;
-  margin: 12px 16px 0; padding: 0;
-  background: none; border-radius: 0;
-  cursor: pointer; transition: opacity 0.12s;
+  margin: 14px 16px 0; padding: 12px 14px;
+  background: #f4faf5; border-radius: 12px;
+  cursor: pointer; transition: all 0.12s;
 }
-.proj-row:active { opacity: 0.6; }
-.proj-row-left { display: flex; align-items: center; gap: 5px; }
-.proj-row-icon { font-size: 14px; }
-.proj-row-name { font-size: 12px; color: #3d9e4a; font-weight: 500; }
-.proj-row-arrow { font-size: 11px; color: #c0c0c0; }
+.proj-row:active { background: #e8f5ea; }
+.proj-row-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.proj-row-icon { font-size: 16px; flex-shrink: 0; }
+.proj-row-name { font-size: 14px; color: #2a6e30; font-weight: 600; }
+.proj-row-arrow { font-size: 12px; color: #3d9e4a; font-weight: 500; flex-shrink: 0; white-space: nowrap; }
 
 .step-card-body { padding: 16px 16px 18px; border-top: 0.5px solid #f0f0f0; margin-top: 12px; }
 .donate-btn {
@@ -198,8 +198,8 @@ body {
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .check-label { font-size: 11px; font-weight: 600; color: #3d9e4a; }
-.success-impact { font-size: 20px; font-weight: 800; color: #111; line-height: 1.3; margin-bottom: 6px; }
-.success-impact-sub { font-size: 12px; color: #999; font-weight: 400; }
+.success-impact { font-size: 13px; font-weight: 500; color: #666; line-height: 1.4; margin-bottom: 10px; }
+.success-impact-sub { font-size: 14px; color: #333; font-weight: 600; }
 
 .success-body { padding: 0 16px 16px; }
 
@@ -251,6 +251,30 @@ body {
   cursor: pointer; transition: all 0.12s; margin-bottom: 8px;
 }
 .outline-btn:active { background: #f8faf8; }
+
+/* 带花按钮（成功后主操作） */
+.flower-btn {
+  width: 100%; height: 46px; border: none; border-radius: 23px;
+  background: linear-gradient(135deg, #ff6b9d, #ff8a65);
+  color: #fff; font-size: 15px; font-weight: 600;
+  cursor: pointer; margin-bottom: 12px;
+  box-shadow: 0 3px 12px rgba(255,107,157,0.25);
+  transition: all 0.15s;
+}
+.flower-btn:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(255,107,157,0.2); }
+
+/* 底部次要操作：一行文字链 */
+.success-actions {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 4px 0 0;
+}
+.action-link {
+  border: none; background: none; color: #999; font-size: 12px;
+  cursor: pointer; padding: 0;
+}
+.action-link:active { color: #3d9e4a; }
+.action-dot { color: #ddd; font-size: 10px; }
+
 .ghost-btn {
   width: 100%; height: 30px; border: none; background: transparent;
   color: #c5c5c5; font-size: 11px; cursor: pointer;
@@ -1017,7 +1041,6 @@ function weekDots(todayDone) {
 function projRow() {
   return `<div class="proj-row" onclick="openSheet()">
     <div class="proj-row-left">
-      <span class="proj-row-icon">🍳</span>
       <span class="proj-row-name">帮村校孩子做一顿好饭</span>
     </div>
     <span class="proj-row-arrow">了解项目 ›</span>
@@ -1025,12 +1048,14 @@ function projRow() {
 }
 
 // ── 成功卡片（新消息） ──
-// opts: { streakDays, streakHint, totalCount, userRank, showShare }
+// opts: { streakDays, totalCount, totalSteps, userRank, impactText, showShare }
 function successCard(opts) {
   const {
-    streakDays, streakHint = '',
+    streakDays,
     totalCount,
+    totalSteps = '38.7万',
     userRank = 12453,
+    impactText = '你的步数，正在帮一件好事发生',
     showShare = false
   } = opts;
 
@@ -1040,7 +1065,6 @@ function successCard(opts) {
         <div class="check-icon">✓</div>
         <div class="check-label">今日已捐步</div>
       </div>
-      <div class="success-impact">帮 3 个孩子吃上了热饭</div>
       <div class="success-impact-sub">8,234步 · ¥0.41 进入「村校厨房」项目</div>
     </div>
     ${weekDots(true)}
@@ -1052,8 +1076,8 @@ function successCard(opts) {
             <div class="count-label">累计捐步</div>
           </div>
           <div class="count-cell">
-            <div class="count-num">${streakDays}<span class="count-unit">天</span></div>
-            <div class="count-label">🔥 本周连续${streakHint ? ' · ' + streakHint : ''}</div>
+            <div class="count-num">${totalSteps}<span class="count-unit">步</span></div>
+            <div class="count-label">累计捐出</div>
           </div>
         </div>
         <div class="together-row">
@@ -1065,11 +1089,12 @@ function successCard(opts) {
           <div class="together-txt">你是今天第 <b>${userRank.toLocaleString()}</b> 个捐步的人</div>
         </div>
       </div>
-      ${showShare
-        ? `<button class="share-btn" onclick="shareCard()">分享这个时刻</button>`
-        : ''}
-      <button class="outline-btn" onclick="openSheet()">了解项目进展</button>
-      <button class="ghost-btn" onclick="remindTomorrow()">提醒我明天捐步</button>
+      <button class="flower-btn" onclick="bringFlower()">🌸 把这朵花带到我的状态</button>
+      <div class="success-actions">
+        <button class="action-link" onclick="openSheet()">了解项目进展</button>
+        <span class="action-dot">·</span>
+        <button class="action-link" onclick="remindTomorrow()">提醒我明天捐步</button>
+      </div>
     </div>
   </div>`;
 }
@@ -1084,13 +1109,13 @@ async function startCan() {
   await addCard(`
     <div class="step-card" id="stepCard">
       <div class="step-card-top">
-        <div class="double-badge">🔥 公益金今日翻倍</div>
+        ${new Date().getDay() === 0 ? '<div class="double-badge">🔥 公益金今日翻倍</div>' : ''}
         <div class="step-label">今天走了</div>
         <div class="step-main"><span class="step-num">8,234</span><span class="step-unit">步</span></div>
-        <div class="step-equiv">≈ 绕故宫走了一圈半 🏛️</div>
+        <div class="step-equiv">≈ 绕故宫走了一圈半</div>
       </div>
-      ${projRow()}
       ${weekDots(false)}
+      ${projRow()}
       <div class="step-card-body">
         <button class="donate-btn" id="donateBtn" onclick="confirmDonate()">确认捐出</button>
       </div>
@@ -1110,15 +1135,20 @@ async function confirmDonate() {
   // Agent 发新的成功卡片
   await addCard(successCard({
     streakDays: 5,
-    streakHint: '再走 2 天就是一周了',
     totalCount: 47,
+    totalSteps: '38.7万',
     userRank: 12453,
+    impactText: '你的步数，正在帮一件好事发生',
     showShare: false
   }), 0);
 }
 
 async function remindTomorrow() {
   openSub();
+}
+
+async function bringFlower() {
+  showToast('已带到你的状态 🌸', '🌸');
 }
 
 // ═══ PATH B：今天已经捐过了 ═══
@@ -1128,9 +1158,10 @@ async function startDone() {
   await userMsg('捐步');
   await addCard(successCard({
     streakDays: 5,
-    streakHint: '再走 2 天就是一周了',
     totalCount: 47,
+    totalSteps: '38.7万',
     userRank: 12453,
+    impactText: '你的步数，正在帮一件好事发生',
     showShare: false
   }), 700);
 }
@@ -1234,7 +1265,7 @@ async function doMilestone(share) {
           <div class="check-icon">✓</div>
           <div class="check-label">今日已捐步</div>
         </div>
-        <div class="success-impact">帮 3 个孩子吃上了热饭</div>
+        <div class="success-impact">你的步数，正在帮一件好事发生</div>
         <div class="success-impact-sub">8,234步 · ¥0.41 进入「村校厨房」项目</div>
       </div>
       ${weekDots(true)}
