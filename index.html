@@ -564,18 +564,47 @@ body {
 }
 
 /* 主内容区 */
-.hs-content { padding: 20px 18px 120px; }
-.hs-proj-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 10px; line-height: 1.3; }
+.hs-content { padding: 16px 18px 120px; }
+
+/* 头部信息卡（标题 / 信任 / 简介 / 机构 包成一张卡） */
+.hs-head-card {
+  background: #fff; border: 0.5px solid #efefef;
+  border-radius: 14px; padding: 16px 14px 4px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+}
+.hs-head-row {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 10px; margin-bottom: 8px;
+}
+.hs-proj-title {
+  font-size: 19px; font-weight: 800; color: #111;
+  line-height: 1.3; flex: 1; margin-bottom: 0;
+}
+.hs-share-btn {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid #f0f0f0; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  color: #999; font-size: 14px; flex-shrink: 0; cursor: pointer;
+}
+.hs-share-btn:active { background: #f8f8f8; }
 
 /* 信任标签 */
-.hs-trust { display: flex; align-items: center; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+.hs-trust { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
 .trust-badge {
   display: inline-flex; align-items: center; gap: 3px; background: #f0f9f1; color: #3d9e4a;
   font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 6px; border: 0.5px solid #c5e8c9;
 }
 
-/* 机构信息 */
-.org-section { margin-bottom: 24px; }
+/* 头部卡内的简介 */
+.hs-head-summary {
+  font-size: 13px; color: #555; line-height: 1.75;
+  padding-bottom: 14px; border-bottom: 0.5px solid #f2f2f2;
+  margin-bottom: 4px;
+}
+
+/* 机构信息（在头部卡内时） */
+.org-section { margin-bottom: 0; }
 .org-row {
   display: flex; align-items: center; padding: 11px 0;
   border-bottom: 0.5px solid #f5f5f5;
@@ -864,37 +893,37 @@ body {
 
       <div class="hs-content">
 
-        <!-- 项目名称 + 信任标签 -->
-        <div class="hs-proj-title">帮村校孩子做一顿好饭</div>
-        <div class="hs-trust">
-          <span class="trust-badge">平台 12 年项目</span>
-          <span class="trust-badge">电子捐赠票据</span>
-        </div>
-
-        <!-- 机构信息 -->
-        <div class="org-section">
-          <div class="org-row">
-            <div class="org-label">善款接收</div>
-            <div class="org-value">
-              <div class="org-icon"></div>
-              <span class="org-name">中国乡村发展基金会</span>
-            </div>
-            <span class="org-arrow">›</span>
+        <!-- 头部信息卡：标题 / 信任 / 简介 / 机构 -->
+        <div class="hs-head-card">
+          <div class="hs-head-row">
+            <div class="hs-proj-title">帮村校孩子做一顿好饭</div>
+            <button class="hs-share-btn" aria-label="分享">↗</button>
           </div>
-          <div class="org-row">
-            <div class="org-label">执行机构</div>
-            <div class="org-value">
-              <div class="org-icon"></div>
-              <span class="org-name">百胜中国</span>
-            </div>
-            <span class="org-arrow">›</span>
+          <div class="hs-trust">
+            <span class="trust-badge">平台 12 年项目</span>
+            <span class="trust-badge">电子捐赠票据</span>
           </div>
-        </div>
-
-        <!-- 项目简介 -->
-        <div class="ai-summary">
-          <div class="ai-tag">项目简介</div>
-          <p>为贵州、四川等农村地区学校改善厨房设施，让孩子每天吃上热饭。百胜中国参与配捐，每笔善款均有对应执行记录可查。</p>
+          <div class="hs-head-summary">
+            为贵州、四川等农村地区学校改善厨房设施，让孩子每天吃上热饭。百胜中国参与配捐，每笔善款均有对应执行记录可查。
+          </div>
+          <div class="org-section">
+            <div class="org-row">
+              <div class="org-label">善款接收</div>
+              <div class="org-value">
+                <div class="org-icon"></div>
+                <span class="org-name">中国乡村发展基金会</span>
+              </div>
+              <span class="org-arrow">›</span>
+            </div>
+            <div class="org-row">
+              <div class="org-label">执行机构</div>
+              <div class="org-value">
+                <div class="org-icon"></div>
+                <span class="org-name">百胜中国</span>
+              </div>
+              <span class="org-arrow">›</span>
+            </div>
+          </div>
         </div>
 
         <!-- 执行效果 -->
