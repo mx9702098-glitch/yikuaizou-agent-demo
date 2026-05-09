@@ -551,7 +551,11 @@ body {
 .proj-hero {
   height: 160px; position: relative;
   background: linear-gradient(160deg, #c5e8c9 0%, #7bc98a 60%, #4ca85a 100%);
-  display: flex; align-items: center; justify-content: center; font-size: 60px;
+}
+.proj-hero::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.18), transparent 60%);
+  pointer-events: none;
 }
 .proj-hero-tag {
   position: absolute; bottom: 12px; left: 14px;
@@ -571,15 +575,19 @@ body {
 }
 
 /* 机构信息 */
-.org-section { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 0.5px solid #f0f0f0; }
+.org-section { margin-bottom: 24px; }
 .org-row {
   display: flex; align-items: center; padding: 11px 0;
   border-bottom: 0.5px solid #f5f5f5;
 }
 .org-row:last-child { border-bottom: none; }
 .org-label { font-size: 12px; color: #aaa; flex-shrink: 0; width: 68px; }
-.org-value { display: flex; align-items: center; gap: 8px; flex: 1; }
-.org-icon { width: 24px; height: 24px; border-radius: 6px; background: #f0f9f1; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.org-value { display: flex; align-items: center; gap: 10px; flex: 1; }
+.org-icon {
+  width: 22px; height: 22px; border-radius: 6px;
+  background: linear-gradient(135deg, #e8f5ea, #c5e8c9);
+  flex-shrink: 0;
+}
 .org-name { font-size: 14px; color: #111; font-weight: 500; }
 .org-arrow { font-size: 14px; color: #d8d8d8; margin-left: auto; }
 
@@ -587,7 +595,7 @@ body {
 .section-title { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 10px; }
 
 /* 项目简介 */
-.ai-summary { margin-bottom: 20px; padding-bottom: 18px; border-bottom: 0.5px solid #f0f0f0; }
+.ai-summary { margin-bottom: 24px; }
 .ai-tag {
   display: inline-flex; align-items: center;
   font-size: 11px; color: #999; font-weight: 500;
@@ -597,8 +605,7 @@ body {
 
 /* 捐赠情况 */
 .donate-section {
-  margin-bottom: 20px; padding-bottom: 18px;
-  border-top: 0.5px solid #f0f0f0; padding-top: 18px; margin-top: 4px;
+  margin-bottom: 24px;
 }
 
 /* 标题行：本期目标 + 备案号 */
@@ -619,9 +626,9 @@ body {
 
 /* 主指标块：金额 + 百分比 + 进度条 整体一组 */
 .donate-main-block {
-  background: #fafbfa; border-radius: 12px;
-  padding: 14px 14px 13px;
-  margin-bottom: 14px;
+  background: #f7f8f7; border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
 }
 .donate-amount-row {
   display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px;
@@ -656,8 +663,8 @@ body {
   display: flex; gap: 12px; margin-bottom: 0;
 }
 .donate-stat-cell {
-  flex: 1; padding: 12px 14px;
-  background: #fafbfa; border-radius: 12px;
+  flex: 1; padding: 14px;
+  background: #f7f8f7; border-radius: 12px;
 }
 .donate-stat-num {
   font-size: 17px; font-weight: 700; color: #1a1a1a;
@@ -677,10 +684,10 @@ body {
 .donate-today-line b { color: #3d9e4a; font-weight: 700; }
 
 /* 执行效果 */
-.exec-section { margin-bottom: 20px; padding-bottom: 18px; border-bottom: 0.5px solid #f0f0f0; }
+.exec-section { margin-bottom: 24px; }
 .exec-text {
   font-size: 13px; color: #555; line-height: 1.85;
-  padding: 12px 14px; background: #f8f9f8; border-radius: 10px;
+  padding: 14px; background: #f7f8f7; border-radius: 12px;
 }
 .exec-text b { color: #111; font-weight: 700; }
 
@@ -692,7 +699,7 @@ body {
 .section-more { font-size: 12px; color: #3d9e4a; cursor: pointer; }
 
 /* 最新进展：时间轴列表 */
-.progress-list { margin-bottom: 16px; }
+.progress-list { margin-bottom: 24px; }
 .progress-item {
   display: flex; gap: 12px;
   padding-bottom: 16px;
@@ -853,18 +860,15 @@ body {
       <div class="hs-handle"></div>
 
       <!-- 1. 项目图 -->
-      <div class="proj-hero">
-        🍳
-      </div>
+      <div class="proj-hero"></div>
 
       <div class="hs-content">
 
         <!-- 项目名称 + 信任标签 -->
         <div class="hs-proj-title">帮村校孩子做一顿好饭</div>
         <div class="hs-trust">
-          <span class="trust-badge">✓ 平台 12 年项目</span>
+          <span class="trust-badge">平台 12 年项目</span>
           <span class="trust-badge">电子捐赠票据</span>
-          <span class="trust-badge">已筹 936 万</span>
         </div>
 
         <!-- 机构信息 -->
@@ -872,7 +876,7 @@ body {
           <div class="org-row">
             <div class="org-label">善款接收</div>
             <div class="org-value">
-              <div class="org-icon">🌱</div>
+              <div class="org-icon"></div>
               <span class="org-name">中国乡村发展基金会</span>
             </div>
             <span class="org-arrow">›</span>
@@ -880,7 +884,7 @@ body {
           <div class="org-row">
             <div class="org-label">执行机构</div>
             <div class="org-value">
-              <div class="org-icon">🏫</div>
+              <div class="org-icon"></div>
               <span class="org-name">百胜中国</span>
             </div>
             <span class="org-arrow">›</span>
