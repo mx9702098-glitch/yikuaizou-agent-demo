@@ -667,13 +667,14 @@ body {
   font-size: 11px; color: #999; margin-top: 4px; display: block;
 }
 .donate-stat-delta {
-  font-size: 10px; color: #3d9e4a; font-weight: 600;
-  margin-top: 4px; display: inline-flex; align-items: center; gap: 3px;
+  font-size: 11px; color: #3d9e4a; font-weight: 600;
+  margin-top: 4px; display: block;
 }
-.donate-stat-delta::before {
-  content: "·"; color: #ccc; font-weight: 400;
+.donate-today-line {
+  font-size: 11px; color: #999; text-align: right;
+  margin-top: 10px;
 }
-.donate-stat-delta:first-of-type::before { display: none; }
+.donate-today-line b { color: #3d9e4a; font-weight: 700; }
 
 /* 执行效果 */
 .exec-section { margin-bottom: 20px; padding-bottom: 18px; border-bottom: 0.5px solid #f0f0f0; }
@@ -969,9 +970,9 @@ body {
             <div class="donate-stat-cell">
               <span class="donate-stat-num">606,346</span>
               <span class="donate-stat-label">累计捐赠人次</span>
-              <span class="donate-stat-delta">今日 +12,453</span>
             </div>
           </div>
+          <div class="donate-today-line">今日已有 <b>12,453</b> 人参与捐赠</div>
         </div>
 
       </div>
