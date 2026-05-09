@@ -1362,14 +1362,18 @@ function projRow() {
 }
 
 // ── 成功卡片（新消息） ──
-// opts: { stepsThis, fundThis, userRank, showShare }
+// opts: { stepsThis, fundThis, userRank, showShare, mode }
+// mode: 'fresh'（刚捐完，默认）| 'done'（今天已捐过，查看状态）
 function successCard(opts) {
   const {
     stepsThis = '8,234',
     fundThis = '0.41',
     userRank = 12453,
-    showShare = false
+    showShare = false,
+    mode = 'fresh'
   } = opts;
+
+  const title = mode === 'done' ? '今日已捐步' : '捐步成功';
 
   // 当前日期 MM.DD（章上展示）
   const _d = new Date();
@@ -1379,7 +1383,7 @@ function successCard(opts) {
     <div class="success-top">
       <div class="success-check">
         <div class="check-icon">✓</div>
-        <div class="check-label">捐步成功</div>
+        <div class="check-label">${title}</div>
       </div>
     </div>
     <div class="success-body">
@@ -1484,7 +1488,8 @@ async function startDone() {
     totalSteps: '38.7万',
     userRank: 12453,
     impactText: '你的步数，正在帮一件好事发生',
-    showShare: false
+    showShare: false,
+    mode: 'done'
   }), 700);
 }
 
