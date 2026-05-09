@@ -158,22 +158,16 @@ body {
 
 /* 项目链接行 */
 .proj-row {
-  display: flex; align-items: flex-start; justify-content: space-between;
-  margin: 14px 16px 0; padding: 11px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 14px 16px 0; padding: 12px 14px;
   background: #f4faf5; border-radius: 12px;
   cursor: pointer; transition: all 0.12s;
-  flex-wrap: wrap;
 }
 .proj-row:active { background: #e8f5ea; }
 .proj-row-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
 .proj-row-icon { font-size: 16px; flex-shrink: 0; }
 .proj-row-name { font-size: 14px; color: #2a6e30; font-weight: 600; }
-.proj-row-arrow { font-size: 12px; color: #3d9e4a; font-weight: 500; flex-shrink: 0; white-space: nowrap; padding-top: 2px; }
-.proj-row-amt {
-  flex-basis: 100%; font-size: 11px; color: #5a8c61;
-  margin-top: 4px; letter-spacing: 0.01em;
-}
-.proj-row-amt b { color: #2a6e30; font-weight: 700; }
+.proj-row-arrow { font-size: 12px; color: #3d9e4a; font-weight: 500; flex-shrink: 0; white-space: nowrap; }
 
 .step-card-body { padding: 16px 16px 18px; border-top: 0.5px solid #f0f0f0; margin-top: 12px; }
 .donate-btn {
@@ -192,44 +186,46 @@ body {
   box-shadow: 0 2px 16px rgba(61,158,74,0.08); border: 1px solid rgba(61,158,74,0.1);
 }
 .success-top {
-  padding: 18px 16px 14px; position: relative;
+  padding: 18px 16px 12px; position: relative;
 }
 .success-check {
-  display: inline-flex; align-items: center; gap: 4px; margin-bottom: 10px;
-  background: #e8f5ea; padding: 3px 9px 3px 5px; border-radius: 12px;
+  display: inline-flex; align-items: center; gap: 7px; margin-bottom: 0;
 }
 .check-icon {
-  width: 16px; height: 16px; border-radius: 50%;
-  background: #3d9e4a; color: #fff; font-size: 9px; font-weight: 700;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #3d9e4a; color: #fff; font-size: 12px; font-weight: 800;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.check-label { font-size: 11px; font-weight: 600; color: #3d9e4a; }
-.success-impact { font-size: 13px; font-weight: 500; color: #666; line-height: 1.4; margin-bottom: 10px; }
-.success-impact-sub { font-size: 14px; color: #333; font-weight: 600; }
+.check-label { font-size: 17px; font-weight: 800; color: #111; letter-spacing: -0.01em; }
 
 .success-body { padding: 0 16px 16px; }
 
-/* 累计 · 社区：合为一个浅灰信息组 */
+/* 本次数据：两格（取代旧的 info-group 累计数据） */
 .info-group {
-  background: #f8f9f8; border-radius: 12px; padding: 12px 14px;
-  margin: 14px 0;
+  background: #f7f8f7; border-radius: 12px; padding: 14px;
+  margin: 12px 0 14px;
 }
 .count-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 0 10px; border-bottom: 0.5px solid #eee;
-  margin-bottom: 10px;
+  display: flex; gap: 14px;
+  padding: 0; border-bottom: none; margin-bottom: 0;
 }
-.count-cell { flex: 1; text-align: center; }
-.count-cell + .count-cell { border-left: 0.5px solid #eee; }
-.count-num { font-size: 16px; font-weight: 700; color: #333; line-height: 1.15; letter-spacing: -0.01em; }
-.count-num .count-unit { font-size: 11px; color: #999; font-weight: 500; margin-left: 1px; }
-.count-label { font-size: 10px; color: #aaa; margin-top: 3px; }
+.count-cell {
+  flex: 1; text-align: left;
+  border-left: none !important;
+}
+.count-num {
+  font-size: 22px; font-weight: 800; color: #1a1a1a;
+  line-height: 1.1; letter-spacing: -0.02em;
+  display: flex; align-items: baseline; gap: 2px;
+}
+.count-num .count-unit { font-size: 12px; color: #999; font-weight: 500; margin-left: 2px; }
+.count-label { font-size: 11px; color: #999; margin-top: 5px; }
 .count-label b { color: #3d9e4a; font-weight: 600; }
 
 .together-row {
   display: flex; align-items: center; gap: 8px;
-  padding: 0; margin: 0;
-  background: none; border-radius: 0;
+  padding: 10px 14px; margin: 0 0 14px;
+  background: #f7f8f7; border-radius: 10px;
 }
 .together-avatars { display: flex; flex-shrink: 0; }
 .together-av {
@@ -1201,29 +1197,22 @@ function weekDots(todayDone) {
 }
 
 // ── 项目链接行（初始卡片里的入口） ──
-// showAmt: 是否展示"约捐金额"副标（步数足才展示，步数不足时金额未定）
-function projRow(showAmt = true) {
-  const amtLine = showAmt
-    ? `<div class="proj-row-amt">这次约捐 <b>¥0.41</b> · 够给 1 个孩子加一顿热饭</div>`
-    : '';
+function projRow() {
   return `<div class="proj-row" onclick="openSheet()">
     <div class="proj-row-left">
       <span class="proj-row-name">帮村校孩子做一顿好饭</span>
     </div>
     <span class="proj-row-arrow">了解项目 ›</span>
-    ${amtLine}
   </div>`;
 }
 
 // ── 成功卡片（新消息） ──
-// opts: { streakDays, totalCount, totalSteps, userRank, impactText, showShare }
+// opts: { stepsThis, fundThis, userRank, showShare }
 function successCard(opts) {
   const {
-    streakDays,
-    totalCount,
-    totalSteps = '38.7万',
+    stepsThis = '8,234',
+    fundThis = '0.41',
     userRank = 12453,
-    impactText = '你的步数，正在帮一件好事发生',
     showShare = false
   } = opts;
 
@@ -1231,31 +1220,30 @@ function successCard(opts) {
     <div class="success-top">
       <div class="success-check">
         <div class="check-icon">✓</div>
-        <div class="check-label">今日已捐步</div>
+        <div class="check-label">捐步成功</div>
       </div>
-      <div class="success-impact-sub">8,234步 · ¥0.41 进入「村校厨房」项目</div>
     </div>
     ${weekDots(true)}
     <div class="success-body">
       <div class="info-group">
         <div class="count-row">
           <div class="count-cell">
-            <div class="count-num">第 ${totalCount}<span class="count-unit">次</span></div>
-            <div class="count-label">累计捐步</div>
+            <div class="count-num">${stepsThis}<span class="count-unit">步</span></div>
+            <div class="count-label">本次捐步</div>
           </div>
           <div class="count-cell">
-            <div class="count-num">${totalSteps}<span class="count-unit">步</span></div>
-            <div class="count-label">累计捐出</div>
+            <div class="count-num">¥${fundThis}</div>
+            <div class="count-label">本次公益金</div>
           </div>
         </div>
-        <div class="together-row">
-          <div class="together-avatars">
-            <div class="together-av a1">李</div>
-            <div class="together-av a2">王</div>
-            <div class="together-av me">你</div>
-          </div>
-          <div class="together-txt">你是今天第 <b>${userRank.toLocaleString()}</b> 个捐步的人</div>
+      </div>
+      <div class="together-row">
+        <div class="together-avatars">
+          <div class="together-av a1">李</div>
+          <div class="together-av a2">王</div>
+          <div class="together-av me">你</div>
         </div>
+        <div class="together-txt">你是今天第 <b>${userRank.toLocaleString()}</b> 个捐步的人</div>
       </div>
       <button class="flower-btn" onclick="bringFlower()">🌸 把这朵花带到我的状态</button>
       <div class="success-actions">
@@ -1351,7 +1339,7 @@ async function startLow() {
       </div>
       <div class="low-body">
         <div class="low-main-hint">走到了随时发 <b>「捐步」</b>，我在</div>
-        <div style="margin: 6px 0 12px">${projRow(false)}</div>
+        <div style="margin: 6px 0 12px">${projRow()}</div>
         <div class="low-alt">
           <button class="soft-btn" onclick="openPay()">今天直接捐一笔</button>
           <button class="low-ghost" onclick="openSub()">提醒我明天捐步</button>
