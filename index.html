@@ -569,7 +569,7 @@ body {
 /* 头部信息卡（标题 / 信任 / 简介 / 机构 包成一张卡） */
 .hs-head-card {
   background: #fff; border: 0.5px solid #efefef;
-  border-radius: 14px; padding: 16px 14px 4px;
+  border-radius: 14px; padding: 16px 14px 12px;
   margin-bottom: 24px;
   box-shadow: 0 1px 0 rgba(0,0,0,0.02);
 }
@@ -604,21 +604,28 @@ body {
 }
 
 /* 机构信息（在头部卡内时） */
-.org-section { margin-bottom: 0; }
+.org-section { margin-bottom: 0; padding: 4px 0 2px; }
 .org-row {
-  display: flex; align-items: center; padding: 11px 0;
-  border-bottom: 0.5px solid #f5f5f5;
+  display: flex; align-items: center; padding: 5px 0;
+  border-bottom: none;
 }
 .org-row:last-child { border-bottom: none; }
-.org-label { font-size: 12px; color: #aaa; flex-shrink: 0; width: 68px; }
-.org-value { display: flex; align-items: center; gap: 10px; flex: 1; }
+.org-label {
+  font-size: 12px; color: #999; flex-shrink: 0;
+  width: auto; margin-right: 8px;
+}
+.org-label::after { content: "："; }
+.org-value { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
 .org-icon {
-  width: 22px; height: 22px; border-radius: 6px;
+  width: 16px; height: 16px; border-radius: 4px;
   background: linear-gradient(135deg, #e8f5ea, #c5e8c9);
   flex-shrink: 0;
 }
-.org-name { font-size: 14px; color: #111; font-weight: 500; }
-.org-arrow { font-size: 14px; color: #d8d8d8; margin-left: auto; }
+.org-name {
+  font-size: 13px; color: #222; font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.org-arrow { font-size: 13px; color: #d0d0d0; margin-left: 8px; flex-shrink: 0; }
 
 /* 模块标题 */
 .section-title { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 10px; }
