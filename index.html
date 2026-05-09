@@ -1290,7 +1290,7 @@ function weekDots(todayDone) {
   const doneCount = states.filter(s => s === 'done' || s === 'today-done').length;
   const titleHtml = todayDone
     ? `本周已打卡 <b>${doneCount}</b> 天`
-    : `本周打卡 <b>${doneCount}</b> 天 · 今天还差一步`;
+    : `本周打卡 <b>${doneCount}</b> 天`;
   return `<div class="week-block">
     <div class="week-title">${titleHtml}</div>
     <div class="week-row">${days.map((d,i) => {
@@ -1329,7 +1329,7 @@ function successCard(opts) {
 
   return `<div class="success-card">
     <div class="stamp">
-      <div class="stamp-main">今日捐步</div>
+      <div class="stamp-main">今日已捐步</div>
       <div class="stamp-date">${stampDate}</div>
     </div>
     <div class="success-top">
