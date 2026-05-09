@@ -206,6 +206,38 @@ body {
 .success-card {
   background: #fff; border-radius: 16px; overflow: hidden;
   box-shadow: 0 2px 16px rgba(61,158,74,0.08); border: 1px solid rgba(61,158,74,0.1);
+  position: relative;
+}
+/* 右上角"今日捐步"圆章 */
+.stamp {
+  position: absolute; top: 14px; right: 14px;
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  border: 1.5px solid #3d9e4a;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: #3d9e4a;
+  transform: rotate(-9deg);
+  opacity: 0.86;
+  background: rgba(255,255,255,0.4);
+  pointer-events: none;
+  letter-spacing: 0.04em;
+  font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", sans-serif;
+}
+.stamp::before {
+  content: ""; position: absolute; inset: 3px;
+  border-radius: 50%; border: 0.5px dashed rgba(61,158,74,0.55);
+}
+.stamp-main {
+  font-size: 13px; font-weight: 800;
+  line-height: 1.05;
+  margin-top: 1px;
+}
+.stamp-date {
+  font-size: 9px; font-weight: 600;
+  margin-top: 3px; padding-top: 2px;
+  border-top: 0.5px solid rgba(61,158,74,0.4);
+  width: 28px; text-align: center;
+  letter-spacing: 0.02em;
 }
 .success-top {
   padding: 18px 16px 4px; position: relative;
@@ -1243,7 +1275,15 @@ function successCard(opts) {
     showShare = false
   } = opts;
 
+  // 当前日期 MM.DD（章上展示）
+  const _d = new Date();
+  const stampDate = `${String(_d.getMonth()+1).padStart(2,'0')}.${String(_d.getDate()).padStart(2,'0')}`;
+
   return `<div class="success-card">
+    <div class="stamp">
+      <div class="stamp-main">今日捐步</div>
+      <div class="stamp-date">${stampDate}</div>
+    </div>
     <div class="success-top">
       <div class="success-check">
         <div class="check-icon">✓</div>
