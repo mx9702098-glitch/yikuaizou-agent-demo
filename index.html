@@ -1052,7 +1052,7 @@ body {
         </div>
 
         <!-- 8. 最新进展 -->
-        <div class="section-title">最新进展</div>
+        <div class="section-title" id="progressAnchor">最新进展</div>
         <div class="progress-list">
           <div class="progress-item">
             <div class="progress-dot-col">
@@ -1279,7 +1279,26 @@ function addQGroup(btns, cb) {
   chat.appendChild(g); scroll();
 }
 
-function openSheet() { document.getElementById('projSheet').classList.add('show'); }
+function openSheet(anchor) {
+  const sheet = document.getElementById('projSheet');
+  sheet.classList.add('show');
+  // 重置滚动位置；如指定锚点则平滑滚动到锚点
+  const inner = sheet.querySelector('.half-sheet');
+  if (inner) {
+    if (anchor) {
+      // 半屏的过渡 ~320ms，等过渡完再滚才有动效
+      setTimeout(() => {
+        const el = sheet.querySelector('#' + anchor);
+        if (el && inner) {
+          const top = el.offsetTop - 12;
+          inner.scrollTo({ top, behavior: 'smooth' });
+        }
+      }, 360);
+    } else {
+      inner.scrollTop = 0;
+    }
+  }
+}
 function closeSheet() { document.getElementById('projSheet').classList.remove('show'); }
 
 // ── Week dots ──
@@ -1357,7 +1376,7 @@ function successCard(opts) {
       </div>
       <button class="flower-btn" onclick="bringFlower()">🌸 把这朵花带到我的状态</button>
       <div class="success-actions">
-        <button class="action-link" onclick="openSheet()">了解项目进展</button>
+        <button class="action-link" onclick="openSheet('progressAnchor')">了解项目进展</button>
         <span class="action-dot">·</span>
         <button class="action-link" onclick="remindTomorrow()">提醒我明天捐步</button>
       </div>
@@ -1561,7 +1580,7 @@ async function doMilestone(share) {
           <span>一个月了，你是认真的</span>
         </div>
         ${share ? `<button class="share-btn" onclick="shareCard()">分享到朋友圈</button>` : ''}
-        <button class="outline-btn" onclick="openSheet()">了解项目进展</button>
+        <button class="outline-btn" onclick="openSheet('progressAnchor')">了解项目进展</button>
         <button class="ghost-btn" onclick="remindTomorrow()">提醒我明天捐步</button>
       </div>
     </div>`, 0);
