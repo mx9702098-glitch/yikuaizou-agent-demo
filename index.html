@@ -1014,7 +1014,6 @@ body {
         <div class="hs-head-card">
           <div class="hs-head-row">
             <div class="hs-proj-title">帮村校孩子做一顿好饭</div>
-            <button class="hs-share-btn" aria-label="分享">↗</button>
           </div>
           <div class="hs-trust">
             <span class="trust-badge">平台 12 年项目</span>
@@ -1053,7 +1052,7 @@ body {
 
         <!-- 8. 最新进展 -->
         <div class="section-title" id="progressAnchor">最新进展</div>
-        <div class="progress-list">
+        <div class="progress-list" id="progressList">
           <div class="progress-item">
             <div class="progress-dot-col">
               <div class="progress-dot active"></div>
@@ -1087,7 +1086,7 @@ body {
             </div>
           </div>
         </div>
-        <a class="progress-more-link" onclick="showToast('在小程序查看完整进展','📖')">查看全部 13 条进展 ›</a>
+        <a class="progress-more-link" id="progressMoreLink" onclick="loadMoreProgress()">查看全部 13 条进展 ›</a>
 
         <!-- 捐赠情况 -->
         <div class="donate-section">
@@ -1300,6 +1299,37 @@ function openSheet(anchor) {
 }
 function closeSheet() { document.getElementById('projSheet').classList.remove('show'); }
 
+// 「查看全部 13 条进展」点击：往进展列表追加更多条目，链子变灰
+const _moreProgressData = [
+  { date: '2025/12/15', org: '中国乡村发展基金会发布', title: '贵州毕节 8 所学校厨房改造完工', body: '新增灶台、消毒柜、冷藏设备，配套餐厅桌椅同步到位。' },
+  { date: '2025/11/02', org: '百胜中国发布', title: '志愿者走访仪陇县留守儿童学校', body: '为 280 名学生送去午餐爱心包，记录孩子们用餐画面。' },
+  { date: '2025/09/18', org: '中国乡村发展基金会发布', title: '本季度审计报告公示', body: '截至 9 月，已实拨善款 ¥3,124,560，覆盖 14 省份 312 所学校。' },
+  { date: '2025/08/05', org: '百胜中国发布', title: '"营养加码"试点：每周一蛋一奶' },
+  { date: '2025/06/20', org: '中国乡村发展基金会发布', title: '与百胜中国续签三年战略合作' }
+];
+function loadMoreProgress() {
+  const list = document.getElementById('progressList');
+  const link = document.getElementById('progressMoreLink');
+  if (!list || !link || link.dataset.loaded === '1') return;
+  link.dataset.loaded = '1';
+  const html = _moreProgressData.map(p => `
+    <div class="progress-item">
+      <div class="progress-dot-col"><div class="progress-dot"></div></div>
+      <div class="progress-content">
+        <div class="progress-meta">
+          <span>${p.date}</span>
+          <span class="progress-org">${p.org}</span>
+        </div>
+        <div class="progress-title">${p.title}</div>
+        ${p.body ? `<div class="progress-body">${p.body}</div>` : ''}
+      </div>
+    </div>`).join('');
+  list.insertAdjacentHTML('beforeend', html);
+  link.textContent = '已展开全部 13 条进展';
+  link.style.color = '#bbb';
+  link.style.cursor = 'default';
+}
+
 // ── Week dots ──
 function weekDots(todayDone) {
   const days = ['周一','周二','周三','周四','今天','周六','周日'];
@@ -1373,7 +1403,7 @@ function successCard(opts) {
           <div class="together-txt">你是今天第 <b>${userRank.toLocaleString()}</b> 个捐步的人</div>
         </div>
       </div>
-      <button class="flower-btn" onclick="bringFlower()">🌸 把这朵花带到我的状态</button>
+      <button class="flower-btn" onclick="bringFlower()">🌸 带上小红花吧</button>
       <div class="success-actions">
         <button class="action-link" onclick="openSheet('progressAnchor')">了解项目进展</button>
         <span class="action-dot">·</span>
@@ -1432,7 +1462,15 @@ async function remindTomorrow() {
 }
 
 async function bringFlower() {
-  showToast('已带到你的状态 🌸', '🌸');
+  // TODO: 接微信状态设置页（小红花状态）
+  // 当前 demo 占位：不弹窗，按钮置为 disabled 给一个轻反馈
+  const btn = document.querySelector('.flower-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.style.opacity = '0.55';
+    btn.style.pointerEvents = 'none';
+    btn.textContent = '🌸 已带上小红花';
+  }
 }
 
 // ═══ PATH B：今天已经捐过了 ═══
