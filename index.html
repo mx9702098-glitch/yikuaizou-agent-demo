@@ -158,16 +158,38 @@ body {
 
 /* 项目链接行 */
 .proj-row {
-  display: flex; align-items: center; justify-content: space-between;
-  margin: 14px 16px 0; padding: 12px 14px;
+  display: flex; align-items: center; gap: 12px;
+  margin: 14px 16px 0; padding: 12px;
   background: #f4faf5; border-radius: 12px;
   cursor: pointer; transition: all 0.12s;
+  border: 0.5px solid #e2efe5;
 }
 .proj-row:active { background: #e8f5ea; }
-.proj-row-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
-.proj-row-icon { font-size: 16px; flex-shrink: 0; }
-.proj-row-name { font-size: 14px; color: #2a6e30; font-weight: 600; }
-.proj-row-arrow { font-size: 12px; color: #3d9e4a; font-weight: 500; flex-shrink: 0; white-space: nowrap; }
+.proj-row-thumb {
+  width: 44px; height: 44px; border-radius: 8px;
+  background: linear-gradient(135deg, #c5e8c9 0%, #7bc98a 60%, #4ca85a 100%);
+  flex-shrink: 0; position: relative; overflow: hidden;
+}
+.proj-row-thumb::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.25), transparent 60%);
+}
+.proj-row-main {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.proj-row-name {
+  font-size: 14px; color: #1f5a26; font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.proj-row-desc {
+  font-size: 11px; color: #6b8a72; line-height: 1.45;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.proj-row-arrow {
+  font-size: 12px; color: #3d9e4a; font-weight: 500;
+  flex-shrink: 0; white-space: nowrap; align-self: center;
+}
 
 .step-card-body { padding: 16px 16px 18px; border-top: 0.5px solid #f0f0f0; margin-top: 12px; }
 .donate-btn {
@@ -200,14 +222,17 @@ body {
 
 .success-body { padding: 0 16px 16px; }
 
-/* 本次数据：两格（取代旧的 info-group 累计数据） */
+/* 本次数据 + 同行人：合成一张卡 */
 .info-group {
-  background: #f7f8f7; border-radius: 12px; padding: 14px;
+  background: #f7f8f7; border-radius: 12px; padding: 0;
   margin: 12px 0 14px;
+  overflow: hidden;
 }
 .count-row {
   display: flex; gap: 14px;
-  padding: 0; border-bottom: none; margin-bottom: 0;
+  padding: 14px;
+  border-bottom: 0.5px solid #ececec;
+  margin-bottom: 0;
 }
 .count-cell {
   flex: 1; text-align: left;
@@ -224,8 +249,8 @@ body {
 
 .together-row {
   display: flex; align-items: center; gap: 8px;
-  padding: 10px 14px; margin: 0 0 14px;
-  background: #f7f8f7; border-radius: 10px;
+  padding: 11px 14px; margin: 0;
+  background: transparent; border-radius: 0;
 }
 .together-avatars { display: flex; flex-shrink: 0; }
 .together-av {
@@ -1199,10 +1224,12 @@ function weekDots(todayDone) {
 // ── 项目链接行（初始卡片里的入口） ──
 function projRow() {
   return `<div class="proj-row" onclick="openSheet()">
-    <div class="proj-row-left">
+    <div class="proj-row-thumb"></div>
+    <div class="proj-row-main">
       <span class="proj-row-name">帮村校孩子做一顿好饭</span>
+      <span class="proj-row-desc">为农村学校改善厨房，每天吃上热饭</span>
     </div>
-    <span class="proj-row-arrow">了解项目 ›</span>
+    <span class="proj-row-arrow">了解 ›</span>
   </div>`;
 }
 
@@ -1235,14 +1262,14 @@ function successCard(opts) {
             <div class="count-label">本次公益金</div>
           </div>
         </div>
-      </div>
-      <div class="together-row">
-        <div class="together-avatars">
-          <div class="together-av a1">李</div>
-          <div class="together-av a2">王</div>
-          <div class="together-av me">你</div>
+        <div class="together-row">
+          <div class="together-avatars">
+            <div class="together-av a1">李</div>
+            <div class="together-av a2">王</div>
+            <div class="together-av me">你</div>
+          </div>
+          <div class="together-txt">你是今天第 <b>${userRank.toLocaleString()}</b> 个捐步的人</div>
         </div>
-        <div class="together-txt">你是今天第 <b>${userRank.toLocaleString()}</b> 个捐步的人</div>
       </div>
       <button class="flower-btn" onclick="bringFlower()">🌸 把这朵花带到我的状态</button>
       <div class="success-actions">
