@@ -229,8 +229,9 @@ body {
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .proj-row-arrow {
-  font-size: 12px; color: #3d9e4a; font-weight: 500;
+  font-size: 18px; color: #b8d3bd; font-weight: 400;
   flex-shrink: 0; white-space: nowrap; align-self: center;
+  line-height: 1;
 }
 
 .step-card-body { padding: 16px 16px 18px; border-top: 0.5px solid #f0f0f0; margin-top: 12px; }
@@ -1357,7 +1358,7 @@ function projRow() {
       <span class="proj-row-name">帮村校孩子做一顿好饭</span>
       <span class="proj-row-desc">为农村学校改善厨房，每天吃上热饭</span>
     </div>
-    <span class="proj-row-arrow">了解 ›</span>
+    <span class="proj-row-arrow">›</span>
   </div>`;
 }
 
@@ -1407,7 +1408,7 @@ function successCard(opts) {
           <div class="together-txt">你是今天第 <b>${userRank.toLocaleString()}</b> 个捐步的人</div>
         </div>
       </div>
-      <button class="flower-btn" onclick="bringFlower()">🌸 带上小红花吧</button>
+      <button class="flower-btn" onclick="bringFlower()" style="${mode === 'done' ? 'display:none' : ''}">🌸 带上小红花吧</button>
       <div class="success-actions">
         <button class="action-link" onclick="openSheet('progressAnchor')">了解项目进展</button>
         <span class="action-dot">·</span>
@@ -1482,15 +1483,12 @@ async function startDone() {
   ts('今天 20:13');
   await wait(300);
   await userMsg('捐步');
+  await agentMsg('今天这事你已经做过了，看一眼：', 700);
   await addCard(successCard({
-    streakDays: 5,
-    totalCount: 47,
-    totalSteps: '38.7万',
     userRank: 12453,
-    impactText: '你的步数，正在帮一件好事发生',
     showShare: false,
     mode: 'done'
-  }), 700);
+  }), 350);
 }
 
 // ═══ PATH C：步数不够 ═══
