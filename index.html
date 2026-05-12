@@ -1462,15 +1462,25 @@ async function remindTomorrow() {
 }
 
 async function bringFlower() {
-  // TODO: 接微信状态设置页（小红花状态）
-  // 当前 demo 占位：不弹窗，按钮置为 disabled 给一个轻反馈
+  // 当前 Agent 半屏不能直接调微信状态 API（参考 21-开发规范 §4.6 / 20-能力清单"改微信状态"待确认）
+  // 迂回路径：按钮置灰提示「已准备」→ Agent 在对话流发一条气泡 + 绿色 mp-link，引导用户点链跳到腾讯公益小程序的状态设置页（小程序内有完整 wx.* 权限可设状态）
   const btn = document.querySelector('.flower-btn');
   if (btn) {
     btn.disabled = true;
     btn.style.opacity = '0.55';
     btn.style.pointerEvents = 'none';
-    btn.textContent = '🌸 已带上小红花';
+    btn.textContent = '🌸 小红花已准备';
   }
+
+  // 等一拍再发气泡，让用户的注意力从按钮顺到对话流
+  await wait(420);
+  const el = document.createElement('div');
+  el.className = 'msg agent';
+  el.style.opacity = '0';
+  el.style.animation = 'fadeUp 0.28s ease forwards';
+  el.innerHTML = `<div class="av">走</div><div class="bubble">小红花已为你准备好，戴到微信状态上吧 👇<br><br><span class="mp-link" onclick="showToast('正在打开微信状态设置…','🌸')">🌸 把小红花设为微信状态 ↗</span></div>`;
+  chat.appendChild(el);
+  scroll();
 }
 
 // ═══ PATH B：今天已经捐过了 ═══
