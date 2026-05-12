@@ -309,6 +309,8 @@ body {
   border-bottom: 0.5px solid #ececec;
   margin-bottom: 0;
 }
+/* 捐赠模式：单格占满宽，数字更大更有仪式感 */
+.count-row.count-row-single .count-cell .count-num { font-size: 28px; }
 .count-cell {
   flex: 1; text-align: left;
   border-left: none !important;
@@ -1358,18 +1360,41 @@ function projRow() {
 }
 
 // ── 成功卡片（新消息） ──
-// opts: { stepsThis, fundThis, userRank, showShare, mode }
-// mode: 'fresh'（刚捐完，默认）| 'done'（今天已捐过，查看状态）
+// opts: { stepsThis, fundThis, userRank, showShare, mode, amount }
+// mode: 'fresh'（刚捐完捐步，默认）| 'done'（今天已捐过步，查看状态）| 'donated'（直接捐了一笔钱）
+// amount: 仅 mode='donated' 时使用，表示本次捐赠金额（元）
 function successCard(opts) {
   const {
     stepsThis = '8,234',
     fundThis = '0.41',
     userRank = 12453,
     showShare = false,
-    mode = 'fresh'
+    mode = 'fresh',
+    amount = 1
   } = opts;
 
-  const title = mode === 'done' ? '今日已捐步' : '捐步成功';
+  const title = mode === 'donated' ? '捐赠成功'
+              : mode === 'done'    ? '今日已捐步'
+              : '捐步成功';
+
+  // 本次数据区：捐赠态单格占满宽，捐步态双格
+  const statsHtml = mode === 'donated'
+    ? `<div class="count-row count-row-single">
+         <div class="count-cell">
+           <div class="count-num">¥${amount}</div>
+           <div class="count-label">本次捐赠</div>
+         </div>
+       </div>`
+    : `<div class="count-row">
+         <div class="count-cell">
+           <div class="count-num">${stepsThis}<span class="count-unit">步</span></div>
+           <div class="count-label">本次捐步</div>
+         </div>
+         <div class="count-cell">
+           <div class="count-num">¥${fundThis}</div>
+           <div class="count-label">本次公益金</div>
+         </div>
+       </div>`;
 
   // 当前日期 MM.DD（章上展示）
   const _d = new Date();
@@ -1384,16 +1409,7 @@ function successCard(opts) {
     </div>
     <div class="success-body">
       <div class="info-group">
-        <div class="count-row">
-          <div class="count-cell">
-            <div class="count-num">${stepsThis}<span class="count-unit">步</span></div>
-            <div class="count-label">本次捐步</div>
-          </div>
-          <div class="count-cell">
-            <div class="count-num">¥${fundThis}</div>
-            <div class="count-label">本次公益金</div>
-          </div>
-        </div>
+        ${statsHtml}
         <div class="together-row">
           <div class="together-avatars">
             <div class="together-av a1">李</div>
@@ -1523,8 +1539,32 @@ async function startLow() {
 function openPay() { document.getElementById('paySheet').classList.add('show'); }
 function closePay() { document.getElementById('paySheet').classList.remove('show'); }
 async function payDone() {
+  // 1. 关支付面板
   closePay();
-  showToast('支付成功', '✓');
+  await wait(320);
+
+  // 2. Path C 的原卡"今天直接捐一笔"按钮置灰（和 Path A 的 confirmDonate 对称）
+  const lowCard = document.querySelector('.low-card');
+  if (lowCard) {
+    lowCard.querySelectorAll('.soft-btn, .low-ghost').forEach(b => {
+      b.disabled = true;
+      b.style.opacity = '0.5';
+      b.style.pointerEvents = 'none';
+    });
+    const softBtn = lowCard.querySelector('.soft-btn');
+    if (softBtn) softBtn.textContent = '已捐出 ✓';
+  }
+
+  // 3. 用户侧冒一条"爱心捐赠 ¥1"气泡（表达用户意图）
+  await userMsg('爱心捐赠 ¥1');
+  await wait(200);
+
+  // 4. Agent 发捐赠成功卡
+  await addCard(successCard({
+    mode: 'donated',
+    amount: 1,
+    showShare: false
+  }), 0);
 }
 
 // 订阅消息授权
