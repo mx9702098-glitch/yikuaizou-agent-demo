@@ -695,257 +695,126 @@ body {
 .half-overlay.show .half-sheet { transform: translateY(0); }
 .hs-handle { width: 36px; height: 4px; background: #ddd; border-radius: 2px; margin: 10px auto 0; }
 
-/* 项目图 */
-.proj-hero {
-  height: 160px; position: relative;
-  background: linear-gradient(160deg, #c5e8c9 0%, #7bc98a 60%, #4ca85a 100%);
+/* ─── DEEP-V3 HALF SHEET ─── */
+/* 在 deep-v3 模式下，覆盖 hs-* 通用样式 */
+.deep-v3 .hs-handle { display: none; }
+.deep-v3 .hs-header { display: none !important; }
+.deep-v3 .hs-body {
+  padding: 0;
+  background: #F2F2F2;
 }
-.proj-hero::after {
-  content: ""; position: absolute; inset: 0;
-  background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.18), transparent 60%);
-  pointer-events: none;
-}
-.proj-hero-tag {
-  position: absolute; bottom: 12px; left: 14px;
-  background: rgba(0,0,0,0.45); color: #fff; font-size: 10px;
-  padding: 3px 9px; border-radius: 10px; backdrop-filter: blur(4px); letter-spacing: 0.02em;
+.half-sheet.deep-v3 { border-radius: 16px 16px 0 0; max-height: 88%; }
+
+.deep-v3-handle {
+  width: 36px; height: 4px; background: #d9d9d9;
+  border-radius: 2px; margin: 8px auto 4px;
 }
 
-/* 主内容区 */
-.hs-content { padding: 16px 18px 120px; }
-
-/* 头部信息卡（标题 / 信任 / 简介 / 机构 包成一张卡） */
-.hs-head-card {
-  background: #fff; border: 0.5px solid #efefef;
-  border-radius: 9px; padding: 16px 14px 12px;
-  margin-bottom: 24px;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+.deep-v3-cover {
+  position: relative; width: 100%; aspect-ratio: 4/3;
+  overflow: hidden; background: linear-gradient(135deg, #FAEEDA, #F2EAD9);
 }
-.hs-head-row {
-  display: flex; align-items: flex-start; justify-content: space-between;
-  gap: 10px; margin-bottom: 8px;
-}
-.hs-proj-title {
-  font-size: 19px; font-weight: 800; color: #111;
-  line-height: 1.3; flex: 1; margin-bottom: 0;
-}
-.hs-share-btn {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 1px solid #f0f0f0; background: #fff;
-  display: flex; align-items: center; justify-content: center;
-  color: #999; font-size: 14px; flex-shrink: 0; cursor: pointer;
-}
-.hs-share-btn:active { background: #f8f8f8; }
-
-/* 信任标签 */
-.hs-trust { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
-.trust-badge {
-  display: inline-flex; align-items: center; gap: 3px; background: #f0f9f1; color: #3d9e4a;
-  font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 6px; border: 0.5px solid #c5e8c9;
+.deep-v3-cover-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.deep-v3-cover-fallback {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; color: #BE954D; font-size: 12px; letter-spacing: 1px;
+  background: linear-gradient(135deg, #FFFAF1, #FAEEDA);
 }
 
-/* 头部卡内的简介 */
-.hs-head-summary {
-  font-size: 13px; color: #555; line-height: 1.75;
-  padding-bottom: 14px; border-bottom: 0.5px solid #f2f2f2;
-  margin-bottom: 4px;
+.deep-v3-card {
+  background: #FFFFFF; margin: 8px 16px 0; border-radius: 12px; padding: 16px;
+}
+.deep-v3-card.flush-top { margin-top: -16px; position: relative; z-index: 2; border-radius: 16px 16px 12px 12px; }
+
+.deep-v3-ptitle { font-size: 18px; font-weight: 700; color: #232019; line-height: 1.4; margin-bottom: 8px; }
+.deep-v3-ptags { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.deep-v3-ptag {
+  font-size: 11px; line-height: 16px; color: #595959;
+  background: #f5f5f5; padding: 3px 9px; border-radius: 4px; letter-spacing: 0.2px;
+}
+.deep-v3-progress-bar { height: 6px; background: #F2F2F2; border-radius: 3px; overflow: hidden; margin: 4px 0 8px; }
+.deep-v3-progress-fill { height: 100%; background: linear-gradient(315deg, #ED3142, #F9BDC3); border-radius: 3px; }
+.deep-v3-progress-stats { display: flex; justify-content: space-between; font-size: 12px; color: #827D76; }
+.deep-v3-progress-stats .num { color: #232019; font-weight: 700; font-size: 14px; }
+
+.deep-v3-section-label {
+  font-size: 12px; color: #827D76; font-weight: 700;
+  margin: 20px 16px 8px; display: flex; align-items: center; gap: 6px;
+}
+.deep-v3-section-label .accent { width: 3px; height: 12px; background: #ED3142; border-radius: 1.5px; }
+
+.deep-v3-story { font-size: 15px; line-height: 1.85; color: #46433A; margin: 0 0 12px; }
+.deep-v3-story:last-of-type { margin-bottom: 0; }
+.story-collapsed .deep-v3-story:nth-of-type(n+4) { display: none; }
+
+.deep-v3-fold {
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  font-size: 13px; color: #827D76; margin-top: 14px; padding-top: 14px;
+  border-top: 0.5px solid #EDEDED; cursor: pointer;
 }
 
-/* 机构信息（在头部卡内时） */
-.org-section { margin-bottom: 0; padding: 4px 0 2px; }
-.org-row {
-  display: flex; align-items: center; padding: 5px 0;
-  border-bottom: none;
-}
-.org-row:last-child { border-bottom: none; }
-.org-label {
-  font-size: 12px; color: #999; flex-shrink: 0;
-  width: auto; margin-right: 8px;
-}
-.org-label::after { content: "："; }
-.org-value { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
-.org-icon {
-  width: 16px; height: 16px; border-radius: 4px;
-  background: linear-gradient(135deg, #e8f5ea, #c5e8c9);
-  flex-shrink: 0;
-}
-.org-name {
-  font-size: 13px; color: #222; font-weight: 500;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.org-arrow { font-size: 13px; color: #d0d0d0; margin-left: 8px; flex-shrink: 0; }
+.deep-v3-exec-card { padding: 0; overflow: hidden; }
+.deep-v3-exec-divider { height: 0.5px; background: #ededed; margin: 0 16px; }
 
-/* 模块标题 */
-.section-title { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 10px; }
+.deep-v3-exec-summary { padding: 16px; }
+.deep-v3-exec-summary-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.deep-v3-exec-summary-title { font-size: 13px; color: #1f1f1f; font-weight: 500; }
+.deep-v3-exec-summary-date { font-size: 11px; color: #827D76; }
+.deep-v3-exec-summary-body { font-size: 13.5px; line-height: 1.8; color: #46433A; }
+.deep-v3-exec-summary-body b { color: #e8413c; font-weight: 600; }
 
-/* 项目简介 */
-.ai-summary { margin-bottom: 24px; }
-.ai-tag {
-  display: inline-flex; align-items: center;
-  font-size: 11px; color: #999; font-weight: 500;
-  margin-bottom: 8px;
+.deep-v3-feedback { padding: 16px 16px 12px; }
+.deep-v3-tl-row { display: flex; gap: 12px; position: relative; }
+.deep-v3-tl-col { display: flex; flex-direction: column; align-items: center; width: 12px; flex-shrink: 0; }
+.deep-v3-tl-dot { width: 8px; height: 8px; border-radius: 50%; background: #e0e0e0; flex-shrink: 0; margin-top: 4px; z-index: 1; }
+.deep-v3-tl-dot.latest { background: #e8413c; box-shadow: 0 0 0 3px rgba(232, 65, 60, 0.15); }
+.deep-v3-tl-line { width: 1px; flex: 1; background: #eee; margin-top: 2px; }
+.deep-v3-tl-item { flex: 1; padding-bottom: 18px; }
+.deep-v3-tl-item.last { padding-bottom: 0; }
+.deep-v3-tl-meta { font-size: 11px; color: #888; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.deep-v3-tl-meta .loc { color: #666; }
+.deep-v3-tl-meta .sep { color: #ddd; }
+.deep-v3-tl-stamp { display: inline-block; font-size: 9px; padding: 1px 6px; border-radius: 3px; background: #f5f5f5; color: #888; letter-spacing: 0.2px; font-weight: 500; }
+.deep-v3-tl-stamp.latest { background: #e8413c; color: #fff; }
+.deep-v3-tl-body { font-size: 13px; line-height: 1.65; color: #1f1f1f; }
+.deep-v3-tl-more {
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  font-size: 12px; color: #07c160; padding: 14px 0 4px; margin-top: 4px;
+  border-top: 0.5px solid #eee; cursor: pointer;
 }
-.ai-summary p { font-size: 13px; color: #555; line-height: 1.85; margin: 0; }
+.deep-v3-tl-more:active { opacity: 0.55; }
 
-/* 捐赠情况 */
-.donate-section {
-  margin-bottom: 24px;
+.deep-v3-trust { padding: 0; overflow: hidden; }
+.deep-v3-trust-row { padding: 14px 16px; border-bottom: 0.5px solid #EDEDED; }
+.deep-v3-trust-row:last-child { border-bottom: none; }
+.deep-v3-trust-head { font-size: 11px; color: #999; margin-bottom: 8px; letter-spacing: 0.3px; }
+.deep-v3-trust-org { display: flex; align-items: center; gap: 12px; }
+.deep-v3-trust-org-logo {
+  width: 40px; height: 40px; border-radius: 8px;
+  background: linear-gradient(135deg, #ffe8e8, #ffd3d3); color: #e8413c;
+  font-size: 11px; font-weight: 700; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0;
 }
+.deep-v3-trust-org-body { flex: 1; min-width: 0; }
+.deep-v3-trust-org-name { font-size: 14px; color: #1f1f1f; font-weight: 600; line-height: 1.4; }
+.deep-v3-trust-org-meta { font-size: 12px; color: #827D76; margin-top: 3px; line-height: 1.5; }
+.deep-v3-trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #46433A; line-height: 1.8; }
+.deep-v3-trust-item .check { color: #07c160; font-size: 14px; flex-shrink: 0; width: 14px; }
 
-/* 标题行：本期目标 + 备案号 */
-.donate-header-row {
-  display: flex; align-items: baseline; justify-content: space-between;
-  margin-bottom: 14px;
+.deep-v3-trust-aid { font-size: 13px; line-height: 1.75; color: #46433A; }
+.deep-v3-trust-aid-p { margin: 0 0 10px; }
+.deep-v3-trust-aid-p:last-child { margin-bottom: 0; }
+.deep-v3-trust-aid.aid-collapsed .deep-v3-trust-aid-p:nth-of-type(n+4) { display: none; }
+.deep-v3-trust-aid-toggle {
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  font-size: 12px; color: #07c160; padding: 12px 0 0; margin-top: 10px;
+  border-top: 0.5px solid #f0f0f0; cursor: pointer;
 }
-.donate-sub-label { font-size: 12px; color: #999; font-weight: 500; }
-.donate-filing-inline {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 10px; color: #b8b8b8; letter-spacing: 0.02em;
-}
-.donate-filing-inline em {
-  font-style: normal; width: 13px; height: 13px; border-radius: 50%;
-  border: 1px solid #d8d8d8; display: inline-flex; align-items: center; justify-content: center;
-  font-size: 8px; color: #b8b8b8; cursor: pointer; flex-shrink: 0;
-}
+.deep-v3-trust-aid-toggle:active { opacity: 0.55; }
 
-/* 主指标块：金额 + 百分比 + 进度条 整体一组 */
-.donate-main-block {
-  background: #f7f8f7; border-radius: 9px;
-  padding: 14px;
-  margin-bottom: 12px;
-}
-.donate-amount-row {
-  display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px;
-}
-.donate-amount-num {
-  font-size: 26px; font-weight: 800; color: #111;
-  letter-spacing: -0.03em; line-height: 1;
-}
-.donate-pct {
-  font-size: 12px; color: #3d9e4a; font-weight: 700;
-  letter-spacing: 0.01em;
-}
-.donate-amount-goal {
-  font-size: 11px; color: #999; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 6px;
-}
-.donate-amount-goal::before {
-  content: ""; width: 3px; height: 3px; border-radius: 50%;
-  background: #ccc; display: inline-block;
-}
-.donate-amount-goal::before { display: none; }
-.donate-progress-bar {
-  height: 5px; background: #ececec; border-radius: 3px; overflow: hidden;
-}
-.donate-progress-fill {
-  height: 100%; background: linear-gradient(90deg, #6dd07a, #3d9e4a);
-  border-radius: 3px;
-}
-
-/* 累计统计：两列扁平，无中线 */
-.donate-stats-grid {
-  display: flex; gap: 12px; margin-bottom: 0;
-}
-.donate-stat-cell {
-  flex: 1; padding: 14px;
-  background: #f7f8f7; border-radius: 9px;
-}
-.donate-stat-num {
-  font-size: 17px; font-weight: 700; color: #1a1a1a;
-  display: block; line-height: 1.15; letter-spacing: -0.01em;
-}
-.donate-stat-label {
-  font-size: 11px; color: #999; margin-top: 4px; display: block;
-}
-.donate-stat-delta {
-  font-size: 11px; color: #3d9e4a; font-weight: 600;
-  margin-top: 4px; display: block;
-}
-.donate-today-line {
-  font-size: 11px; color: #999; text-align: right;
-  margin-top: 10px;
-}
-.donate-today-line b { color: #3d9e4a; font-weight: 700; }
-
-/* 执行效果 */
-.exec-section { margin-bottom: 24px; }
-.exec-text {
-  font-size: 13px; color: #555; line-height: 1.85;
-  padding: 14px; background: #f7f8f7; border-radius: 9px;
-}
-.exec-text b { color: #111; font-weight: 700; }
-
-/* 最新进展：section header */
-.section-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 12px;
-}
-.section-more { font-size: 12px; color: #3d9e4a; cursor: pointer; }
-
-/* 进展末尾"查看全部"灰链 */
-.progress-more-link {
-  display: block; text-align: center;
-  font-size: 12px; color: #999;
-  padding: 10px 0 0; margin-bottom: 24px;
-  cursor: pointer; letter-spacing: 0.02em;
-}
-.progress-more-link:active { color: #666; }
-
-/* 最新进展：时间轴列表 */
-.progress-list { margin-bottom: 12px; }
-.progress-item {
-  display: flex; gap: 12px;
-  padding-bottom: 16px;
-}
-.progress-item:last-child { padding-bottom: 0; }
-.progress-dot-col {
-  display: flex; flex-direction: column; align-items: center;
-  flex-shrink: 0; padding-top: 4px; width: 10px;
-}
-.progress-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: #d0d0d0; flex-shrink: 0;
-}
-.progress-dot.active { background: #3d9e4a; box-shadow: 0 0 0 2px rgba(61,158,74,0.2); }
-.progress-line {
-  width: 1px; flex: 1; background: #eee; margin-top: 5px; min-height: 14px;
-}
-.progress-content { flex: 1; min-width: 0; }
-.progress-meta {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 11px; color: #bbb; margin-bottom: 5px; flex-wrap: wrap;
-}
-.progress-org { color: #bbb; }
-.progress-badge {
-  background: #ff4d4f; color: #fff; font-size: 10px; font-weight: 600;
-  padding: 1px 6px; border-radius: 4px; letter-spacing: 0.02em;
-}
-.progress-title { font-size: 14px; font-weight: 700; color: #111; line-height: 1.45; margin-bottom: 6px; }
-.progress-body { font-size: 12px; color: #666; line-height: 1.7; margin-bottom: 8px; }
-.progress-photos { display: flex; gap: 5px; }
-.progress-photo {
-  width: 80px; height: 66px; border-radius: 6px;
-  background: linear-gradient(135deg, #e8f5ea, #c8e6c9);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; color: #7a9a80; flex-shrink: 0; overflow: hidden;
-}
-.progress-photo-more {
-  width: 80px; height: 66px; border-radius: 6px;
-  background: linear-gradient(135deg, #d0e8d2, #b8d8ba);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: #fff; flex-shrink: 0;
-  position: relative;
-}
-.progress-photo-more::before {
-  content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.22); border-radius: 6px;
-}
-
-/* 实时热度（CTA 上方小字） */
-.heat-context {
-  font-size: 11px; color: #aaa; text-align: center;
-  margin-bottom: 10px; line-height: 1.6;
-}
-.heat-context b { color: #888; font-weight: 600; }
+.deep-v3-mp-link { text-align: center; font-size: 13px; color: #07c160; padding: 18px 16px 8px; cursor: pointer; }
+.deep-v3-mp-link:active { opacity: 0.55; }
 
 /* 小程序跳转链接（chat bubble 内绿色文字） */
 .mp-link {
@@ -955,30 +824,17 @@ body {
 }
 .mp-link:active { opacity: 0.65; }
 
-/* 底栏：两主按钮 + 小程序文字链 */
-.hs-footer-mini {
-  position: sticky; bottom: 0; left: 0; right: 0; background: #fff;
-  border-top: 0.5px solid #eee; padding: 12px 16px 22px;
-  z-index: 10; box-shadow: 0 -4px 14px rgba(0,0,0,0.05);
+.deep-v3-spacer { height: 16px; }
+.deep-v3-cta-bar {
+  background: #FFFFFF; padding: 12px 16px 24px;
+  border-top: 0.5px solid #EDEDED; position: sticky; bottom: 0;
 }
-.hs-footer-btns { display: flex; gap: 10px; margin-bottom: 10px; }
-.hs-btn-monthly {
-  flex: 1; height: 44px; border: none; border-radius: 13px;
-  background: #ff9500; color: #fff; font-size: 15px; font-weight: 600;
-  cursor: pointer; transition: all 0.12s;
+.deep-v3-cta {
+  background: #ED3142; color: #FFFFFF; border-radius: 999px; height: 44px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: 16px; font-weight: 700; cursor: pointer; border: none; width: 100%;
 }
-.hs-btn-monthly:active { opacity: 0.85; transform: scale(0.97); }
-.hs-btn-donate {
-  flex: 1; height: 44px; border: none; border-radius: 13px;
-  background: #e53935; color: #fff; font-size: 15px; font-weight: 600;
-  cursor: pointer; transition: all 0.12s;
-}
-.hs-btn-donate:active { opacity: 0.85; transform: scale(0.97); }
-.hs-mini-link {
-  display: block; width: 100%; text-align: center; border: none; background: none;
-  font-size: 12px; color: #c0c0c0; cursor: pointer; padding: 2px 0; letter-spacing: 0.01em;
-}
-.hs-mini-link:active { color: #888; }
+.deep-v3-cta:active { background: #D81325; transform: scale(0.98); }
 
 /* ═══════ QUIZ CARD (每日益答) ═══════ */
 .quiz-card {
@@ -989,7 +845,10 @@ body {
   display: flex; justify-content: space-between; align-items: center;
   padding: 11px 14px 0;
 }
-.quiz-learners { font-size: 12px; color: #999; }
+.quiz-learners {
+  font-size: 12px; color: #3d9e4a; font-weight: 600;
+  background: #eef8ef; padding: 3px 9px; border-radius: 10px;
+}
 .quiz-body { padding: 12px 14px 0; }
 .quiz-question {
   font-size: 15px; font-weight: 700; color: #111;
@@ -1031,8 +890,9 @@ body {
 }
 .quiz-result-icon.wrong { background: #e8a63c; }
 .quiz-result-title { font-size: 17px; font-weight: 800; color: #111; }
-.quiz-result-streak { text-align: right; }
+.quiz-result-streak { display: flex; align-items: baseline; gap: 2px; }
 .quiz-result-streak-num { font-size: 26px; font-weight: 800; color: #3d9e4a; line-height: 1; letter-spacing: -0.02em; }
+.quiz-result-streak-text { font-size: 12px; color: #5a9e62; font-weight: 500; }
 .quiz-result-streak-label { font-size: 11px; color: #5a9e62; margin-top: 2px; }
 .quiz-result-streak.wrong .quiz-result-streak-num { font-size: 13px; color: #999; font-weight: 500; }
 .quiz-result-streak.wrong .quiz-result-streak-label { display: none; }
@@ -1137,136 +997,71 @@ body {
     <span class="inputbar-icon">⊕</span>
   </div>
 
-  <!-- 半屏：项目详情 -->
-  <div class="half-overlay" id="projSheet" onclick="closeSheet()">
-    <div class="half-sheet" onclick="event.stopPropagation()">
-      <div class="hs-handle"></div>
+  <!-- 项目深度卡半屏 v3 -->
+  <div class="half-overlay" id="deepOverlay" onclick="closeDeep()">
+    <div class="half-sheet deep-v3" onclick="event.stopPropagation()">
+      <div class="hs-title" id="deepTitle" style="position:absolute;left:-9999px;">关于这个项目</div>
+      <div class="hs-body">
 
-      <!-- 1. 项目图 -->
-      <div class="proj-hero"></div>
+        <!-- 半屏拖动条 -->
+        <div class="deep-v3-handle"></div>
 
-      <div class="hs-content">
-
-        <!-- 头部信息卡：标题 / 信任 / 简介 / 机构 -->
-        <div class="hs-head-card">
-          <div class="hs-head-row">
-            <div class="hs-proj-title">帮村校孩子做一顿好饭</div>
-          </div>
-          <div class="hs-trust">
-            <span class="trust-badge">平台 12 年项目</span>
-            <span class="trust-badge">电子捐赠票据</span>
-          </div>
-          <div class="hs-head-summary">
-            为贵州、四川等农村地区学校改善厨房设施，让孩子每天吃上热饭。百胜中国参与配捐，每笔善款均有对应执行记录可查。
-          </div>
-          <div class="org-section">
-            <div class="org-row">
-              <div class="org-label">善款接收</div>
-              <div class="org-value">
-                <div class="org-icon"></div>
-                <span class="org-name">中国乡村发展基金会</span>
-              </div>
-              <span class="org-arrow">›</span>
-            </div>
-            <div class="org-row">
-              <div class="org-label">执行机构</div>
-              <div class="org-value">
-                <div class="org-icon"></div>
-                <span class="org-name">百胜中国</span>
-              </div>
-              <span class="org-arrow">›</span>
-            </div>
+        <!-- 封面 -->
+        <div class="deep-v3-cover">
+          <img class="deep-v3-cover-img" id="deepV3Cover" src="" alt="" onerror="this.style.display='none'; var fb=document.getElementById('deepV3CoverFallback'); if(fb) fb.style.display='flex';">
+          <div class="deep-v3-cover-fallback" id="deepV3CoverFallback" style="display:none;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>项目封面</span>
           </div>
         </div>
 
-        <!-- 执行效果 -->
-        <div class="exec-section">
-          <div class="section-title">执行效果</div>
-          <div class="exec-text">
-            截至 2025 年底，共改造 <b>312 所</b>农村学校厨房，<b>4.2 万名</b>学生每天吃上热饭，覆盖 <b>14 个省份</b>贫困地区。
+        <!-- 项目标题 + tags + 进度 -->
+        <div class="deep-v3-card flush-top">
+          <div class="deep-v3-ptitle" id="deepV3Title">—</div>
+          <div class="deep-v3-ptags" id="deepV3Tags"></div>
+          <div class="deep-v3-progress-bar">
+            <div class="deep-v3-progress-fill" id="deepV3ProgressFill" style="width:0%"></div>
+          </div>
+          <div class="deep-v3-progress-stats">
+            <span><span class="num" id="deepV3Raised">—</span> / <span id="deepV3Goal">—</span></span>
+            <span><span class="num" id="deepV3Supporters">—</span> 人已支持</span>
           </div>
         </div>
 
-        <!-- 8. 最新进展 -->
-        <div class="section-title" id="progressAnchor">最新进展</div>
-        <div class="progress-list" id="progressList">
-          <div class="progress-item">
-            <div class="progress-dot-col">
-              <div class="progress-dot active"></div>
-              <div class="progress-line"></div>
-            </div>
-            <div class="progress-content">
-              <div class="progress-meta">
-                <span>2026/03/16</span>
-                <span class="progress-org">中国乡村发展基金会发布</span>
-                <span class="progress-badge">最新</span>
-              </div>
-              <div class="progress-title">爱心厨房设备让光盘行动更轻松</div>
-              <div class="progress-body">四川仪陇县 5 所学校新厨房设备已投入使用，孩子们第一次在宽敞明亮的地方吃上了热饭。</div>
-              <div class="progress-photos">
-                <div class="progress-photo">厨房实拍</div>
-                <div class="progress-photo">孩子用餐</div>
-                <div class="progress-photo-more">共 3 张</div>
-              </div>
-            </div>
-          </div>
-          <div class="progress-item">
-            <div class="progress-dot-col">
-              <div class="progress-dot"></div>
-            </div>
-            <div class="progress-content">
-              <div class="progress-meta">
-                <span>2026/01/08</span>
-                <span class="progress-org">百胜中国发布</span>
-              </div>
-              <div class="progress-title">新一批设备抵达贵州，安装工作启动</div>
-            </div>
-          </div>
-        </div>
-        <a class="progress-more-link" id="progressMoreLink" onclick="loadMoreProgress()">查看全部 13 条进展 ›</a>
-
-        <!-- 捐赠情况 -->
-        <div class="donate-section">
-          <div class="section-title">捐赠情况</div>
-          <div class="donate-header-row">
-            <span class="donate-sub-label">公众捐赠</span>
-            <div class="donate-filing-inline">
-              募捐备案 5332000050917103XBA21005<em>i</em>
-            </div>
-          </div>
-
-          <div class="donate-main-block">
-            <div class="donate-amount-row">
-              <span class="donate-amount-num">¥902,658</span>
-              <span class="donate-pct">已筹 18.1%</span>
-            </div>
-            <div class="donate-amount-goal">本期目标 ¥5,000,000</div>
-            <div class="donate-progress-bar">
-              <div class="donate-progress-fill" style="width: 18.1%"></div>
-            </div>
-          </div>
-
-          <div class="donate-stats-grid">
-            <div class="donate-stat-cell">
-              <span class="donate-stat-num">9,362,411</span>
-              <span class="donate-stat-label">累计捐赠金额（元）</span>
-            </div>
-            <div class="donate-stat-cell">
-              <span class="donate-stat-num">606,346</span>
-              <span class="donate-stat-label">累计捐赠人次</span>
-            </div>
-          </div>
+        <!-- 爱心故事 -->
+        <div class="deep-v3-section-label"><span class="accent"></span>爱心故事</div>
+        <div class="deep-v3-card">
+          <div id="deepV3Story" class="story-collapsed"></div>
+          <div class="deep-v3-fold" id="deepV3StoryToggle" onclick="toggleStoryExpand()">展开看完整故事 ›</div>
         </div>
 
-      </div>
-
-      <!-- 底部 CTA -->
-      <div class="hs-footer-mini">
-        <div class="hs-footer-btns">
-          <button class="hs-btn-monthly" onclick="openSub()">每月一捐</button>
-          <button class="hs-btn-donate" onclick="openPay()">捐一笔</button>
+        <!-- 执行动态 -->
+        <div class="deep-v3-section-label"><span class="accent"></span>执行动态</div>
+        <div class="deep-v3-card deep-v3-exec-card">
+          <div class="deep-v3-exec-summary" id="deepV3ExecSummary"></div>
+          <div class="deep-v3-exec-divider"></div>
+          <div class="deep-v3-feedback" id="deepV3LetterWrap"></div>
         </div>
-        <button class="hs-mini-link" onclick="goToMiniprogram()">在小程序查看完整项目信息 ›</button>
+
+        <!-- 机构详情 -->
+        <div class="deep-v3-section-label"><span class="accent"></span>机构详情</div>
+        <div class="deep-v3-card deep-v3-trust" id="deepV3Trust"></div>
+
+        <!-- 跳小程序查看更多 -->
+        <div class="deep-v3-mp-link" onclick="goToProjectMiniProgram()">
+          前往小程序查看更多项目详情 ›
+        </div>
+
+        <div class="deep-v3-spacer"></div>
+
+        <!-- 底部 CTA -->
+        <div class="deep-v3-cta-bar">
+          <button class="deep-v3-cta" onclick="deepToHelp()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            我想帮一下
+          </button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -1361,7 +1156,7 @@ const chat = document.getElementById('chat');
 const wait = ms => new Promise(r => setTimeout(r, ms));
 const scroll = () => setTimeout(() => { chat.scrollTop = chat.scrollHeight; }, 40);
 
-function clearChat() { chat.innerHTML = ''; closeSheet(); }
+function clearChat() { chat.innerHTML = ''; closeDeep(); }
 
 function ts(t) {
   const el = document.createElement('div');
@@ -1414,57 +1209,333 @@ function addQGroup(btns, cb) {
   chat.appendChild(g); scroll();
 }
 
-function openSheet(anchor) {
-  const sheet = document.getElementById('projSheet');
-  sheet.classList.add('show');
-  // 重置滚动位置；如指定锚点则平滑滚动到锚点
-  const inner = sheet.querySelector('.half-sheet');
-  if (inner) {
-    if (anchor) {
-      // 半屏的过渡 ~320ms，等过渡完再滚才有动效
-      setTimeout(() => {
-        const el = sheet.querySelector('#' + anchor);
-        if (el && inner) {
-          const top = el.offsetTop - 12;
-          inner.scrollTo({ top, behavior: 'smooth' });
-        }
-      }, 360);
-    } else {
-      inner.scrollTop = 0;
+// ── DEEP-V3 项目数据 ──
+const DEEP_PROJECTS = {
+  village: {
+    title: '帮村校孩子做一顿好饭',
+    imgUrl: '',
+    deep: {
+      projTags: ['教育助学', '乡村振兴', '百胜中国配捐'],
+      raisedDisplay: '¥902,658',
+      goalDisplay: '¥5,000,000',
+      supporters: '606,346',
+      story: [
+        '在贵州、四川等偏远山区，很多村校的孩子每天走几公里山路上学，到了中午却没有热饭吃——学校没有厨房，只能啃冷馒头或者饿着肚子上课。',
+        '8 岁的小雨每天早上 6 点出门，书包里装着妈妈前一晚蒸好的馒头，到了中午馒头已经硬了。她说："冬天最难熬，馒头冻得跟石头一样。"',
+        '这个项目为农村学校改善厨房设施，配置灶台、蒸饭柜、消毒柜等设备，让孩子每天中午能吃上一顿热腾腾的饭菜。',
+        '百胜中国作为战略合作伙伴参与配捐，每一笔公众善款都会获得等额配捐，让爱心加倍。所有善款使用均有对应执行记录可查。',
+        '截至目前，项目已覆盖 14 个省份 312 所学校，超过 4.2 万名孩子受益。每 50 元就能让一个孩子吃上一周的热饭。'
+      ],
+      execText: '截至 2025 年底，共改造 <b>312 所</b>农村学校厨房，<b>4.2 万名</b>学生每天吃上热饭，覆盖 <b>14 个省份</b>贫困地区。',
+      execDate: '截至 2025/12',
+      letters: [
+        { from: '四川仪陇 · 2026/03', body: '新厨房用了两个月了，孩子们现在最开心的就是中午打饭时间。食堂阿姨说浪费少了很多，光盘行动真正落地了。' },
+        { from: '贵州毕节 · 2026/01', body: '以前只有一口大锅，现在蒸饭柜、汤锅一应俱全。孩子们能喝上热汤了，冬天感冒都少了。' },
+        { from: '云南曲靖 · 2025/11', body: '配送的消毒柜解决了餐具卫生问题，家长们终于放心了。几个妈妈还主动来学校帮厨。' }
+      ],
+      orgInfo: {
+        fullName: '中国乡村发展基金会',
+        logo: '乡村',
+        badges: ['民政部备案', '5A 级社会组织', '12 年公募资质']
+      },
+      aidPlan: '项目为每所受助学校配置标准化厨房设备一套（含商用灶台、蒸饭柜、冷藏柜、消毒柜），并提供为期一年的营养午餐食材补贴。\n\n每所学校改造预算 3-5 万元，覆盖设备采购、运输安装及厨房基础改造。食材补贴按每生每天 4 元标准发放。\n\n项目设有驻地督导员，每月走访拍照记录，每季度公示资金使用明细。家长委员会参与日常监督，确保餐食质量。\n\n百胜中国提供专业营养师支持，为学校设计每周食谱，确保营养均衡。同时每学期组织志愿者入校开展食育课堂。'
+    }
+  },
+  family: {
+    title: '爱心援助困境家庭',
+    imgUrl: '',
+    deep: {
+      projTags: ['大病救助', '困境家庭', '医疗帮扶'],
+      raisedDisplay: '¥1,286,430',
+      goalDisplay: '¥3,000,000',
+      supporters: '15,032',
+      story: [
+        '在中国，每年有数十万家庭因为重大疾病陷入困境。高昂的治疗费用往往让普通家庭倾家荡产，甚至放弃治疗。',
+        '42 岁的张大哥是家里的顶梁柱，去年确诊尿毒症后，每周三次透析让这个本就不富裕的家庭雪上加霜。妻子辞工照顾他，两个孩子的学费都成了难题。',
+        '"如果不是你们帮忙，我可能早就放弃了。"张大哥说这话时眼眶红了。项目不仅帮他解决了部分医疗费，还为孩子申请了助学金。',
+        '这个项目为因病致困的家庭提供医疗费用补助、生活救济金和子女教育支持，帮助他们度过最艰难的时期，重建生活信心。',
+        '每一笔善款都经过严格审核，直接拨付到受助家庭的医疗账户或学校账户，确保专款专用。项目已累计帮助超过 3,200 个困境家庭。'
+      ],
+      execText: '截至 2026 年 4 月，已救助困境家庭 <b>3,218 户</b>，发放医疗补助 <b>¥860 万</b>，子女教育资助 <b>1,024 人</b>。',
+      execDate: '截至 2026/04',
+      letters: [
+        { from: '河南周口 · 2026/04', body: '感谢你们的帮助，老公的透析费有了着落，孩子也拿到了助学金。这个家还能撑下去。' },
+        { from: '安徽阜阳 · 2026/02', body: '妈妈手术顺利完成了！住院期间收到的慰问金帮我们解决了护工费用，非常感恩。' },
+        { from: '甘肃定西 · 2025/12', body: '爸爸化疗结束回家休养了，项目志愿者还定期来家里探访，教我们康复知识。' }
+      ],
+      orgInfo: {
+        fullName: '中华社会救助基金会',
+        logo: '救助',
+        badges: ['民政部备案', '4A 级社会组织']
+      },
+      aidPlan: '项目为符合条件的困境家庭提供三类帮扶：医疗费用补助（最高 3 万元/户）、过渡期生活救济金（每月 1500 元，最长 6 个月）、子女教育资助（每学期 2000-5000 元）。\n\n申请流程：由社区或医院推荐 → 项目组入户调查 → 评审委员会审核 → 公示无异议后拨款。全程不超过 15 个工作日。\n\n每个受助家庭配有一名专属社工，定期回访评估，协助对接当地医保、低保等政策资源，帮助家庭建立长效保障机制。\n\n项目每季度发布执行报告，公开每笔款项去向，接受社会监督。'
     }
   }
-}
-function closeSheet() { document.getElementById('projSheet').classList.remove('show'); }
+};
 
-// 「查看全部 13 条进展」点击：往进展列表追加更多条目，链子变灰
-const _moreProgressData = [
-  { date: '2025/12/15', org: '中国乡村发展基金会发布', title: '贵州毕节 8 所学校厨房改造完工', body: '新增灶台、消毒柜、冷藏设备，配套餐厅桌椅同步到位。' },
-  { date: '2025/11/02', org: '百胜中国发布', title: '志愿者走访仪陇县留守儿童学校', body: '为 280 名学生送去午餐爱心包，记录孩子们用餐画面。' },
-  { date: '2025/09/18', org: '中国乡村发展基金会发布', title: '本季度审计报告公示', body: '截至 9 月，已实拨善款 ¥3,124,560，覆盖 14 省份 312 所学校。' },
-  { date: '2025/08/05', org: '百胜中国发布', title: '"营养加码"试点：每周一蛋一奶' },
-  { date: '2025/06/20', org: '中国乡村发展基金会发布', title: '与百胜中国续签三年战略合作' }
-];
-function loadMoreProgress() {
-  const list = document.getElementById('progressList');
-  const link = document.getElementById('progressMoreLink');
-  if (!list || !link || link.dataset.loaded === '1') return;
-  link.dataset.loaded = '1';
-  const html = _moreProgressData.map(p => `
-    <div class="progress-item">
-      <div class="progress-dot-col"><div class="progress-dot"></div></div>
-      <div class="progress-content">
-        <div class="progress-meta">
-          <span>${p.date}</span>
-          <span class="progress-org">${p.org}</span>
+// ── Deep-v3 半屏控制 ──
+function openDeep(projId) {
+  const p = DEEP_PROJECTS[projId];
+  if (!p || !p.deep) return;
+
+  document.getElementById('deepTitle').textContent = '关于「' + p.title + '」';
+
+  // 封面图
+  const coverImg = document.getElementById('deepV3Cover');
+  const coverFb = document.getElementById('deepV3CoverFallback');
+  if (coverFb) coverFb.style.display = 'none';
+  coverImg.style.display = '';
+  coverImg.src = p.imgUrl;
+  coverImg.alt = p.title;
+
+  // 项目标题
+  document.getElementById('deepV3Title').innerHTML = p.title;
+
+  // 项目标签
+  const ptags = p.deep.projTags || [];
+  document.getElementById('deepV3Tags').innerHTML = ptags
+    .map(t => '<span class="deep-v3-ptag">' + t + '</span>').join('');
+
+  // 进度条
+  const raised = parseFloat(p.deep.raisedDisplay.replace(/[¥,]/g, ''));
+  const goal = parseFloat(p.deep.goalDisplay.replace(/[¥,]/g, ''));
+  const pct = goal > 0 ? Math.min(100, Math.round(raised / goal * 100)) : 0;
+  document.getElementById('deepV3ProgressFill').style.width = pct + '%';
+  document.getElementById('deepV3Raised').textContent = p.deep.raisedDisplay;
+  document.getElementById('deepV3Goal').textContent = p.deep.goalDisplay;
+  document.getElementById('deepV3Supporters').textContent = p.deep.supporters || '—';
+
+  // 项目故事
+  const storyParas = p.deep.story || [];
+  const storyEl = document.getElementById('deepV3Story');
+  storyEl.innerHTML = storyParas
+    .map(s => '<p class="deep-v3-story">' + s + '</p>').join('');
+  storyEl.classList.add('story-collapsed');
+  const storyToggle = document.getElementById('deepV3StoryToggle');
+  if (storyToggle) {
+    if (storyParas.length > 3) {
+      storyToggle.style.display = '';
+      storyToggle.innerHTML = '展开全部 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-left:2px;"><polyline points="6 9 12 15 18 9"/></svg>';
+    } else {
+      storyToggle.style.display = 'none';
+    }
+  }
+
+  // 执行动态
+  renderExecSummary(p);
+  renderFeedback(p);
+
+  // 机构详情
+  renderTrustSection(p);
+
+  document.getElementById('deepOverlay').classList.add('show');
+}
+
+function closeDeep() {
+  document.getElementById('deepOverlay').classList.remove('show');
+}
+
+function deepToHelp() {
+  closeDeep();
+  setTimeout(() => { openPay(); }, 350);
+}
+
+function toggleStoryExpand() {
+  const storyEl = document.getElementById('deepV3Story');
+  const btn = document.getElementById('deepV3StoryToggle');
+  if (!storyEl || !btn) return;
+  if (storyEl.classList.contains('story-collapsed')) {
+    storyEl.classList.remove('story-collapsed');
+    btn.innerHTML = '收起 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-left:2px;"><polyline points="18 15 12 9 6 15"/></svg>';
+  } else {
+    storyEl.classList.add('story-collapsed');
+    btn.innerHTML = '展开全部 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-left:2px;"><polyline points="6 9 12 15 18 9"/></svg>';
+  }
+}
+
+function renderExecSummary(p) {
+  const el = document.getElementById('deepV3ExecSummary');
+  if (!el) return;
+  const execText = p.deep.execText || '';
+  const dateLabel = p.deep.execDate || '截至 2026/05';
+  if (!execText) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  el.innerHTML = `
+    <div class="deep-v3-exec-summary-head">
+      <span class="deep-v3-exec-summary-title">执行结果</span>
+      <span class="deep-v3-exec-summary-date">${dateLabel}</span>
+    </div>
+    <div class="deep-v3-exec-summary-body">${execText}</div>
+  `;
+}
+
+function renderFeedback(p) {
+  const wrap = document.getElementById('deepV3LetterWrap');
+  if (!wrap) return;
+  const allLetters = (p.deep.letters && p.deep.letters.length) ? p.deep.letters : [];
+  if (!allLetters.length) { wrap.style.display = 'none'; return; }
+  wrap.style.display = '';
+
+  const initialCount = 3;
+  const totalCount = allLetters.length;
+  const hasMore = totalCount > initialCount;
+
+  const rowHTML = (l, i, isLast) => {
+    const isLatest = (i === 0);
+    const stampClass = isLatest ? 'deep-v3-tl-stamp latest' : 'deep-v3-tl-stamp';
+    const stampText = isLatest ? '最新' : ('第 ' + (i + 1) + ' 封');
+    let location = '', date = '';
+    const parts = (l.from || '').split('·').map(s => s.trim());
+    if (parts.length >= 2) { location = parts[0]; date = parts[1]; }
+    else { location = parts[0] || ''; date = l.date || ''; }
+    const dotClass = isLatest ? 'deep-v3-tl-dot latest' : 'deep-v3-tl-dot';
+    const itemClass = isLast ? 'deep-v3-tl-item last' : 'deep-v3-tl-item';
+    return `
+      <div class="deep-v3-tl-row">
+        <div class="deep-v3-tl-col">
+          <span class="${dotClass}"></span>
+          ${isLast ? '' : '<span class="deep-v3-tl-line"></span>'}
         </div>
-        <div class="progress-title">${p.title}</div>
-        ${p.body ? `<div class="progress-body">${p.body}</div>` : ''}
+        <div class="${itemClass}">
+          <div class="deep-v3-tl-meta">
+            <span class="${stampClass}">${stampText}</span>
+            ${date ? `<span>${date}</span>` : ''}
+            ${date && location ? '<span class="sep">·</span>' : ''}
+            ${location ? `<span class="loc">${location}</span>` : ''}
+          </div>
+          <div class="deep-v3-tl-body">${l.body || '—'}</div>
+        </div>
       </div>
-    </div>`).join('');
-  list.insertAdjacentHTML('beforeend', html);
-  link.textContent = '已展开全部 13 条进展';
-  link.style.color = '#bbb';
-  link.style.cursor = 'default';
+    `;
+  };
+
+  const visibleLetters = allLetters.slice(0, initialCount);
+  const hiddenLetters = allLetters.slice(initialCount);
+
+  const visibleHTML = visibleLetters.map((l, i) => {
+    const isLast = !hasMore && i === visibleLetters.length - 1;
+    return rowHTML(l, i, isLast);
+  }).join('');
+
+  const hiddenHTML = hiddenLetters.map((l, i) => {
+    const realIdx = i + initialCount;
+    const isLast = i === hiddenLetters.length - 1;
+    return rowHTML(l, realIdx, isLast);
+  }).join('');
+
+  wrap.innerHTML = `
+    ${visibleHTML}
+    ${hasMore ? `<div class="deep-v3-tl-hidden" id="deepV3TlHidden" style="display:none;">${hiddenHTML}</div>` : ''}
+    ${hasMore ? `
+      <div class="deep-v3-tl-more" id="deepV3TlMore" onclick="toggleFeedbackExpand()">
+        <span id="deepV3TlMoreText">展开剩余 ${totalCount - initialCount} 条</span>
+        <svg id="deepV3TlMoreIcon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    ` : ''}
+  `;
+}
+
+function toggleFeedbackExpand() {
+  const hidden = document.getElementById('deepV3TlHidden');
+  const moreText = document.getElementById('deepV3TlMoreText');
+  const moreIcon = document.getElementById('deepV3TlMoreIcon');
+  const wrap = document.getElementById('deepV3LetterWrap');
+  if (!hidden || !moreText || !moreIcon || !wrap) return;
+  if (hidden.style.display === 'none') {
+    hidden.style.display = '';
+    moreText.textContent = '收起';
+    moreIcon.innerHTML = '<polyline points="18 15 12 9 6 15"/>';
+    resetLineVisibility(wrap);
+  } else {
+    hidden.style.display = 'none';
+    moreText.textContent = `展开剩余 ${hidden.children.length} 条`;
+    moreIcon.innerHTML = '<polyline points="6 9 12 15 18 9"/>';
+    resetLineVisibility(wrap);
+  }
+}
+
+function resetLineVisibility(wrap) {
+  const hidden = document.getElementById('deepV3TlHidden');
+  const hiddenVisible = hidden && hidden.style.display !== 'none';
+  const directRows = Array.from(wrap.children).filter(n => n.classList && n.classList.contains('deep-v3-tl-row'));
+  const hiddenRows = hidden ? Array.from(hidden.children).filter(n => n.classList && n.classList.contains('deep-v3-tl-row')) : [];
+  const allRows = hiddenVisible ? [...directRows, ...hiddenRows] : directRows;
+  allRows.forEach((row, idx) => {
+    const col = row.querySelector('.deep-v3-tl-col');
+    if (!col) return;
+    const oldLine = col.querySelector('.deep-v3-tl-line');
+    if (oldLine) oldLine.remove();
+    if (idx < allRows.length - 1) {
+      const line = document.createElement('span');
+      line.className = 'deep-v3-tl-line';
+      col.appendChild(line);
+    }
+    const item = row.querySelector('.deep-v3-tl-item');
+    if (item) { item.classList.toggle('last', idx === allRows.length - 1); }
+  });
+}
+
+function renderTrustSection(p) {
+  const el = document.getElementById('deepV3Trust');
+  if (!el) return;
+  const org = p.deep.orgInfo || {};
+  const orgName = org.fullName || '执行机构';
+  const orgLogo = org.logo || orgName.substring(0, 2);
+  const orgBadges = (org.badges && org.badges.length) ? org.badges : ['民政部备案'];
+  const orgMeta = orgBadges.join(' · ');
+
+  const aidPlan = p.deep.aidPlan || '';
+  const aidParas = aidPlan ? aidPlan.split('\n\n').map(s => s.trim()).filter(Boolean) : [];
+  const hasAidPlan = aidParas.length > 0;
+
+  const aidHTML = hasAidPlan ? `
+    <div class="deep-v3-trust-row">
+      <div class="deep-v3-trust-head">帮扶方案</div>
+      <div class="deep-v3-trust-aid aid-collapsed" id="deepV3AidPlan">
+        ${aidParas.map(para => `<p class="deep-v3-trust-aid-p">${para.replace(/\n/g, '<br>')}</p>`).join('')}
+      </div>
+      ${aidParas.length > 3 ? `
+        <div class="deep-v3-trust-aid-toggle" id="deepV3AidToggle" onclick="toggleAidPlan()">
+          <span id="deepV3AidToggleText">展开全部</span>
+          <svg id="deepV3AidToggleIcon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      ` : ''}
+    </div>
+  ` : '';
+
+  el.innerHTML = `
+    <div class="deep-v3-trust-row">
+      <div class="deep-v3-trust-head">执行机构</div>
+      <div class="deep-v3-trust-org">
+        <div class="deep-v3-trust-org-logo">${orgLogo}</div>
+        <div class="deep-v3-trust-org-body">
+          <div class="deep-v3-trust-org-name">${orgName}</div>
+          <div class="deep-v3-trust-org-meta">${orgMeta}</div>
+        </div>
+      </div>
+    </div>
+    ${aidHTML}
+  `;
+}
+
+function toggleAidPlan() {
+  const body = document.getElementById('deepV3AidPlan');
+  const text = document.getElementById('deepV3AidToggleText');
+  const icon = document.getElementById('deepV3AidToggleIcon');
+  if (!body || !text || !icon) return;
+  if (body.classList.contains('aid-collapsed')) {
+    body.classList.remove('aid-collapsed');
+    text.textContent = '收起';
+    icon.innerHTML = '<polyline points="18 15 12 9 6 15"/>';
+  } else {
+    body.classList.add('aid-collapsed');
+    text.textContent = '展开全部';
+    icon.innerHTML = '<polyline points="6 9 12 15 18 9"/>';
+  }
+}
+
+function goToProjectMiniProgram() {
+  closeDeep();
 }
 
 // ── Week dots ──
@@ -1488,7 +1559,7 @@ function weekDots(todayDone) {
 
 // ── 项目链接行（初始卡片里的入口） ──
 function projRow() {
-  return `<div class="proj-row" onclick="openSheet()">
+  return `<div class="proj-row" onclick="openDeep('village')">
     <div class="proj-row-thumb"></div>
     <div class="proj-row-main">
       <span class="proj-row-name">帮村校孩子做一顿好饭</span>
@@ -1564,7 +1635,7 @@ function successCard(opts) {
       </div>
       <button class="flower-btn" onclick="bringFlower()" style="${mode === 'done' ? 'display:none' : ''}">🌸 带上小红花吧</button>
       <div class="success-actions">
-        <button class="action-link" onclick="openSheet('progressAnchor')">了解项目进展</button>
+        <button class="action-link" onclick="openDeep('village')">了解项目进展</button>
         <span class="action-dot">·</span>
         <button class="action-link" onclick="remindTomorrow()">提醒我明天捐步</button>
       </div>
@@ -1820,7 +1891,7 @@ async function doMilestone(share) {
           <span>一个月了，你是认真的</span>
         </div>
         ${share ? `<button class="share-btn" onclick="shareCard()">分享到朋友圈</button>` : ''}
-        <button class="outline-btn" onclick="openSheet('progressAnchor')">了解项目进展</button>
+        <button class="outline-btn" onclick="openDeep('village')">了解项目进展</button>
         <button class="ghost-btn" onclick="remindTomorrow()">提醒我明天捐步</button>
       </div>
     </div>`, 0);
@@ -1832,7 +1903,7 @@ async function shareCard() {
 
 // ─── 跳转小程序：关弹屏 → agent 发一句话 + 绿色链接 ───
 async function goToMiniprogram() {
-  closeSheet();
+  closeDeep();
   await wait(420);
   const el = document.createElement('div');
   el.className = 'msg agent';
@@ -1923,8 +1994,9 @@ function quizResultCard(correct, userChoice) {
 
   const streakHtml = correct
     ? `<div class="quiz-result-streak">
-        <div class="quiz-result-streak-num">4</div>
-        <div class="quiz-result-streak-label">连续答对</div>
+        <span class="quiz-result-streak-text">连续答对</span>
+        <span class="quiz-result-streak-num">4</span>
+        <span class="quiz-result-streak-text">天</span>
       </div>`
     : `<div class="quiz-result-streak wrong">
         <div class="quiz-result-streak-num">累计答题 4 天</div>
@@ -1944,6 +2016,11 @@ function quizResultCard(correct, userChoice) {
       </div>
     </div>`;
 
+  // 戴花按钮：答对才有
+  const flowerHtml = correct
+    ? `<button class="flower-btn" onclick="bringFlower()" style="margin-top:14px;">🌸 戴上小红花</button>`
+    : '';
+
   return `<div class="quiz-result">
     <div class="quiz-result-top${topCls}">
       <div class="quiz-result-left">
@@ -1958,15 +2035,15 @@ function quizResultCard(correct, userChoice) {
         <div class="quiz-explain-tag">解析</div>
         <p class="quiz-explain-text">基本医疗保险和医疗救助都属于国家医疗保障体系，由政府主导保障全民基本医疗需求。商业健康保险是保险公司推出的市场化产品，需自愿购买，不属于国家医保范畴。</p>
       </div>
-      <div class="proj-row" onclick="openPay()">
+      <div class="proj-row" onclick="openDeep('family')">
         <div class="proj-row-thumb"></div>
         <div class="proj-row-main">
           <span class="proj-row-name">爱心援助困境家庭</span>
           <span class="proj-row-desc">已有 1.5 万爱心网友捐助</span>
         </div>
-        <span class="proj-row-arrow" style="font-size:13px; color:#3d9e4a; font-weight:600;">捐 1 元</span>
+        <span class="proj-row-arrow">›</span>
       </div>
-      <button class="flower-btn" onclick="bringFlower()" style="margin-top:14px;">🌸 戴上小红花</button>
+      ${flowerHtml}
       <div class="success-actions">
         <button class="action-link" onclick="remindQuiz()">提醒明日答题</button>
       </div>
