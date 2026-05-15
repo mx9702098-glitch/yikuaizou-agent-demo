@@ -198,17 +198,17 @@ body {
   padding: 3px 8px; border-radius: 10px;
 }
 
-/* 项目链接行 */
+/* 项目链接行（统一规格：扁、单行标题、宽度由父容器决定） */
 .proj-row {
-  display: flex; align-items: center; gap: 9px;
-  margin: 10px 14px 0; padding: 9px;
+  display: flex; align-items: center; gap: 8px;
+  margin: 10px 14px 0; padding: 7px 10px;
   background: #f4faf5; border-radius: 8px;
   cursor: pointer; transition: all 0.12s;
   border: 0.5px solid #e2efe5;
 }
 .proj-row:active { background: #e8f5ea; }
 .proj-row-thumb {
-  width: 44px; height: 44px; border-radius: 8px;
+  width: 28px; height: 28px; border-radius: 6px;
   background: linear-gradient(135deg, #c5e8c9 0%, #7bc98a 60%, #4ca85a 100%);
   flex-shrink: 0; position: relative; overflow: hidden;
 }
@@ -218,18 +218,17 @@ body {
 }
 .proj-row-main {
   flex: 1; min-width: 0;
-  display: flex; flex-direction: column; gap: 2px;
+  display: flex; align-items: center;
 }
 .proj-row-name {
-  font-size: 14px; color: #080808; font-weight: 700;
+  font-size: 13px; color: #1a1a1a; font-weight: 600;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  line-height: 1.3;
 }
-.proj-row-desc {
-  font-size: 11px; color: #6b8a72; line-height: 1.45;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
+/* desc 默认隐藏（统一规则：项目入口只保留标题一行） */
+.proj-row-desc { display: none; }
 .proj-row-arrow {
-  font-size: 18px; color: #b8d3bd; font-weight: 400;
+  font-size: 15px; color: #b8d3bd; font-weight: 400;
   flex-shrink: 0; white-space: nowrap; align-self: center;
   line-height: 1;
 }
@@ -926,15 +925,10 @@ body {
   color: #3d9e4a; font-weight: 700; margin-right: 5px;
 }
 
-/* 答题卡里的项目行：更扁更小（覆盖通用 proj-row 的样式） */
+/* 答题卡内的项目入口：和外层一致，仅 margin 归零 */
 .quiz-result-body .proj-row {
-  margin: 0 0 8px 0; padding: 7px 9px;
-  gap: 9px; border-radius: 9px;
+  margin: 0 0 8px 0;
 }
-.quiz-result-body .proj-row-thumb { width: 30px; height: 30px; border-radius: 6px; }
-.quiz-result-body .proj-row-name { font-size: 12px; }
-.quiz-result-body .proj-row-desc { font-size: 10px; }
-.quiz-result-body .proj-row-arrow { font-size: 11px; }
 
 /* 答题卡内的戴花主按钮：收紧高度 */
 .quiz-result-body .flower-btn {
