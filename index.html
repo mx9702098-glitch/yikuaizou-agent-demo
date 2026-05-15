@@ -94,9 +94,9 @@ body {
 .msg { display: flex; align-items: flex-start; margin-bottom: 3px; opacity: 0; animation: fadeUp 0.32s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 .msg.user { justify-content: flex-end; }
-.av { width: 36px; height: 36px; border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.msg.agent .av { background: linear-gradient(135deg, #3d9e4a, #5dc46a); color: #fff; font-size: 12px; font-weight: 700; margin-right: 8px; }
-.msg.user .av { background: #c9c9c9; font-size: 18px; margin-left: 8px; }
+.av { display: none; }
+.msg.agent .av { display: none; }
+.msg.user .av { display: none; }
 .bubble { max-width: 220px; padding: 9px 13px; font-size: 15px; line-height: 1.48; border-radius: 6px; word-break: break-word; position: relative; }
 .msg.user .bubble { background: #95ec69; color: #111; }
 .msg.agent .bubble { background: #fff; color: #111; }
@@ -105,7 +105,7 @@ body {
 
 /* Typing */
 .typing-wrap { display: flex; align-items: flex-start; margin-bottom: 3px; }
-.typing-wrap .av { background: linear-gradient(135deg, #3d9e4a, #5dc46a); color: #fff; font-size: 12px; font-weight: 700; margin-right: 8px; width: 36px; height: 36px; border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.typing-wrap .av { display: none; }
 .typing-dots { display: flex; gap: 4px; padding: 11px 14px; background: #fff; border-radius: 6px; width: fit-content; position: relative; }
 .typing-dots::after { content:''; position:absolute; top:10px; left:-5px; border:6px solid transparent; border-right-color:#fff; border-left:none; }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: #c0c0c0; animation: pulse 1.5s infinite ease-in-out; }
@@ -872,11 +872,15 @@ body {
 .quiz-result {
   background: #fff; border-radius: 9px; overflow: hidden;
   box-shadow: 0 2px 11px rgba(61,158,74,0.08); border: 1px solid rgba(61,158,74,0.1);
+  /* 1:1 硬约束：宽高相等，内部 flex 列做空间分配 */
+  width: 100%; aspect-ratio: 1 / 1;
+  display: flex; flex-direction: column;
 }
 .quiz-result-top {
   background: linear-gradient(135deg, #e8f5ea, #d4edda);
-  padding: 14px 14px 12px;
+  padding: 10px 13px;
   display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
 }
 .quiz-result-top.wrong {
   background: #fff;
@@ -884,37 +888,61 @@ body {
 }
 .quiz-result-left { display: flex; align-items: center; gap: 7px; }
 .quiz-result-icon {
-  width: 22px; height: 22px; border-radius: 50%;
-  background: #3d9e4a; color: #fff; font-size: 12px; font-weight: 700;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #3d9e4a; color: #fff; font-size: 11px; font-weight: 700;
   display: flex; align-items: center; justify-content: center;
 }
 .quiz-result-icon.wrong { background: #e8a63c; }
-.quiz-result-title { font-size: 17px; font-weight: 800; color: #111; }
-.quiz-result-streak { display: flex; align-items: baseline; gap: 2px; }
-.quiz-result-streak-num { font-size: 26px; font-weight: 800; color: #3d9e4a; line-height: 1; letter-spacing: -0.02em; }
-.quiz-result-streak-text { font-size: 12px; color: #5a9e62; font-weight: 500; }
-.quiz-result-streak-label { font-size: 11px; color: #5a9e62; margin-top: 2px; }
-.quiz-result-streak.wrong .quiz-result-streak-num { font-size: 13px; color: #999; font-weight: 500; }
+.quiz-result-title { font-size: 15px; font-weight: 800; color: #111; }
+/* 累计/连续：从红色大字 → 灰色小字，让红色权重让给主按钮 */
+.quiz-result-streak { display: flex; align-items: baseline; gap: 3px; }
+.quiz-result-streak-num { font-size: 13px; font-weight: 700; color: #666; line-height: 1; }
+.quiz-result-streak-text { font-size: 11px; color: #888; font-weight: 500; }
+.quiz-result-streak-label { display: none; }
+.quiz-result-streak.wrong .quiz-result-streak-num { font-size: 11px; color: #999; font-weight: 500; }
 .quiz-result-streak.wrong .quiz-result-streak-label { display: none; }
 
-.quiz-result-body { padding: 12px 14px 14px; }
+.quiz-result-body {
+  padding: 10px 13px 12px;
+  flex: 1; display: flex; flex-direction: column;
+  min-height: 0;
+}
 
 /* 答错态：选择对比 */
-.quiz-answer-compare { margin-bottom: 12px; }
-.quiz-answer-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-size: 13px; }
-.quiz-answer-row .label { color: #999; font-size: 12px; flex-shrink: 0; }
+.quiz-answer-compare { margin-bottom: 8px; }
+.quiz-answer-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 12px; }
+.quiz-answer-row .label { color: #999; font-size: 11px; flex-shrink: 0; }
 .quiz-answer-row .wrong-choice { color: #999; text-decoration: line-through; }
 .quiz-answer-row .right-choice { color: #3d9e4a; font-weight: 600; }
 
-/* 解析区 */
+/* 解析区：解析两字 + 正文同行 */
 .quiz-explain {
-  background: #f7f8f7; border-radius: 9px; padding: 11px 13px; margin-bottom: 12px;
+  background: #f7f8f7; border-radius: 8px; padding: 9px 11px;
+  margin-bottom: 9px;
+  font-size: 12px; color: #555; line-height: 1.6;
+  flex-shrink: 1; min-height: 0; overflow: hidden;
 }
-.quiz-explain-tag { font-size: 12px; color: #3d9e4a; font-weight: 600; margin-bottom: 4px; }
-.quiz-explain-text { font-size: 13px; color: #444; line-height: 1.65; margin: 0; }
+.quiz-explain b.quiz-explain-tag {
+  color: #3d9e4a; font-weight: 700; margin-right: 5px;
+}
 
-/* proj-row inside quiz result: reset margins */
-.quiz-result-body .proj-row { margin: 0 0 0 0; }
+/* 答题卡里的项目行：更扁更小（覆盖通用 proj-row 的样式） */
+.quiz-result-body .proj-row {
+  margin: 0 0 8px 0; padding: 7px 9px;
+  gap: 9px; border-radius: 9px;
+}
+.quiz-result-body .proj-row-thumb { width: 30px; height: 30px; border-radius: 6px; }
+.quiz-result-body .proj-row-name { font-size: 12px; }
+.quiz-result-body .proj-row-desc { font-size: 10px; }
+.quiz-result-body .proj-row-arrow { font-size: 11px; }
+
+/* 答题卡内的戴花主按钮：收紧高度 */
+.quiz-result-body .flower-btn {
+  height: 36px; font-size: 13px; margin-top: auto !important; margin-bottom: 4px;
+  border-radius: 10px;
+}
+.quiz-result-body .success-actions { padding: 2px 0 0; }
+.quiz-result-body .success-actions .action-link { font-size: 11px; }
 </style>
 </head>
 <body>
@@ -2032,8 +2060,7 @@ function quizResultCard(correct, userChoice) {
     <div class="quiz-result-body">
       ${compareHtml}
       <div class="quiz-explain">
-        <div class="quiz-explain-tag">解析</div>
-        <p class="quiz-explain-text">基本医疗保险和医疗救助都属于国家医疗保障体系，由政府主导保障全民基本医疗需求。商业健康保险是保险公司推出的市场化产品，需自愿购买，不属于国家医保范畴。</p>
+        <b class="quiz-explain-tag">解析</b>基本医疗保险和医疗救助都属于国家医疗保障体系，由政府主导保障全民基本医疗需求。商业健康保险是保险公司推出的市场化产品，需自愿购买，不属于国家医保范畴。
       </div>
       <div class="proj-row" onclick="openDeep('family')">
         <div class="proj-row-thumb"></div>
